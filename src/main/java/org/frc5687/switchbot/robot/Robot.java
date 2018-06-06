@@ -1,11 +1,27 @@
 package org.frc5687.switchbot.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import jdk.management.resource.internal.inst.AbstractInterruptibleChannelRMHooks;
+import org.frc5687.switchbot.robot.subsystems.Arm;
+import org.frc5687.switchbot.robot.subsystems.DriveTrain;
+import org.frc5687.switchbot.robot.subsystems.Pincer;
+import org.frc5687.switchbot.robot.subsystems.Shifter;
+import org.frc5687.switchbot.robot.utils.PDP;
+import sun.util.resources.cldr.ar.CalendarData_ar_MA;
 
 public class Robot extends TimedRobot {
 
     private static Robot _instance;
+
+    private DriveTrain _drivetrain;
+    private Pincer _pincer;
+    private Arm _arm;
+    private Shifter _shifter;
+
+    private OI _oi;
+    private PDP _pdp;
 
     public Robot() {
     }
@@ -20,6 +36,15 @@ public class Robot extends TimedRobot {
         _instance = this;
         setPeriod(1 / Constants.CYCLES_PER_SECOND);
         LiveWindow.disableAllTelemetry();
+
+        _pdp = new PDP();
+        _oi = new OI();
+        _drivetrain = new DriveTrain(_instance);
+        _pincer = new Pincer(_instance);
+        _arm = new Arm(_instance);
+        _shifter = new Shifter(_instance);
+
+        _oi.initializeButtons(_instance);
     }
 
     @Override
@@ -32,5 +57,16 @@ public class Robot extends TimedRobot {
         }
     }
 
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
+    }
 
+
+    public OI getOI() { return _oi; }
+    public DriveTrain getDriveTrain() { return _drivetrain; }
+    public Pincer getPincer() { return _pincer; }
+    public PDP getPDP() { return _pdp; }
+    public Arm getArm() { return _arm; }
+    public Shifter getShifter() { return _shifter; }
 }
