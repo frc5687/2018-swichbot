@@ -3,13 +3,11 @@ package org.frc5687.switchbot.robot;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import jdk.management.resource.internal.inst.AbstractInterruptibleChannelRMHooks;
 import org.frc5687.switchbot.robot.subsystems.Arm;
 import org.frc5687.switchbot.robot.subsystems.DriveTrain;
 import org.frc5687.switchbot.robot.subsystems.Pincer;
 import org.frc5687.switchbot.robot.subsystems.Shifter;
 import org.frc5687.switchbot.robot.utils.PDP;
-import sun.util.resources.cldr.ar.CalendarData_ar_MA;
 
 public class Robot extends TimedRobot {
 
@@ -60,8 +58,18 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        updateDashboard();
     }
 
+    @Override
+    public void disabledPeriodic() {
+        updateDashboard();
+    }
+
+    public void updateDashboard() {
+        _pdp.updateDashboard();
+        _arm.updateDashboard();
+    }
 
     public OI getOI() { return _oi; }
     public DriveTrain getDriveTrain() { return _drivetrain; }

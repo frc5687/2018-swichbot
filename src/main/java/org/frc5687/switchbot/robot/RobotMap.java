@@ -26,7 +26,10 @@ public class RobotMap {
     }
 
     public static class PDP {
-        public static final int ARM_VICTOR = 0;
+        public static final int ARM_VICTOR = 14;
+    }
 
+    public static class Analog {
+        public static final int POTENTIOMETER = 0;
     }
 }

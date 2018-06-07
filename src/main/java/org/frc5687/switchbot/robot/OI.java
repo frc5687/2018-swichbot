@@ -16,6 +16,8 @@ public class OI {
 
     private JoystickButton _driverLeftBumper;
     private JoystickButton _driverRightBumper;
+    private JoystickButton _operatorLeftBumper;
+    private JoystickButton _operatorRightBumper;
 
 
     public OI() {
@@ -24,6 +26,8 @@ public class OI {
 
         _driverLeftBumper = new JoystickButton(_driverGamepad, Gamepad.Buttons.LEFT_BUMPER.getNumber());
         _driverRightBumper = new JoystickButton(_driverGamepad, Gamepad.Buttons.RIGHT_BUMPER.getNumber());
+        _operatorLeftBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.LEFT_BUMPER.getNumber());
+        _operatorRightBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.RIGHT_BUMPER.getNumber());
 
 
     }
@@ -31,6 +35,8 @@ public class OI {
     public void initializeButtons(Robot robot) {
         _driverLeftBumper.whenPressed(new OpenPincer(robot.getPincer()));
         _driverRightBumper.whenPressed(new ClosePincer(robot.getPincer()));
+        _operatorLeftBumper.whenPressed(new OpenPincer(robot.getPincer()));
+        _operatorRightBumper.whenPressed(new ClosePincer(robot.getPincer()));
     }
 
     public double getDriveSpeed() {
@@ -41,7 +47,7 @@ public class OI {
     }
 
     public double getDriveRotation() {
-        double speed = -getSpeedFromAxis(_driverGamepad, 0);
+        double speed = getSpeedFromAxis(_driverGamepad, 0);
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
 
@@ -53,7 +59,7 @@ public class OI {
 
 
     public double getArmSpeed() {
-        double speed = -getSpeedFromAxis(_operatorGamepad, 1);
+        double speed = -getSpeedFromAxis(_driverGamepad, 5);
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
