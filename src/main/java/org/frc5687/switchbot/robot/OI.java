@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.frc5687.switchbot.robot.commands.ClosePincer;
 import org.frc5687.switchbot.robot.commands.Eject;
 import org.frc5687.switchbot.robot.commands.OpenPincer;
+import org.frc5687.switchbot.robot.commands.Shift;
+import org.frc5687.switchbot.robot.subsystems.Shifter;
 import org.frc5687.switchbot.robot.utils.AxisButton;
 import org.frc5687.switchbot.robot.utils.Gamepad;
 import org.frc5687.switchbot.robot.utils.Helpers;
@@ -54,6 +56,9 @@ public class OI {
         _driverLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
         _driverRightTrigger.whenPressed(new Eject(robot.getPincer()));
+
+        _driverLeftBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.HIGH, false));
+        _driverRightBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.LOW, false));
 
         _operatorLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
