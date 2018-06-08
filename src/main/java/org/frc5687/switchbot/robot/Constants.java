@@ -6,6 +6,7 @@ public class Constants {
     public static class DriveTrain {
         public static final double DEADBAND = 0.1;
         public static final double SENSITIVITY = 0.75;
+        public static final double ROTATION_SENSITIVITY = 0.75;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
@@ -36,5 +37,9 @@ public class Constants {
         public static final double INTAKE_SPEED = -1.0;
         public static final double EJECT_SPEED = 1.0;
         public static final long EJECT_TIME_MILLIS = 500;
+    }
+
+    public static class OI {
+        public static final double AXIS_BUTTON_THRESHHOLD = 0.2;
     }
 }

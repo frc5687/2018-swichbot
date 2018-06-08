@@ -1,9 +1,12 @@
 package org.frc5687.switchbot.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.frc5687.switchbot.robot.commands.ClosePincer;
+import org.frc5687.switchbot.robot.commands.Eject;
 import org.frc5687.switchbot.robot.commands.OpenPincer;
+import org.frc5687.switchbot.robot.utils.AxisButton;
 import org.frc5687.switchbot.robot.utils.Gamepad;
 import org.frc5687.switchbot.robot.utils.Helpers;
 
@@ -18,7 +21,10 @@ public class OI {
     private JoystickButton _driverLeftBumper;
     private JoystickButton _driverRightBumper;
     private JoystickButton _operatorLeftBumper;
-    private JoystickButton _operatorRightBumper;
+    private Button _operatorRightBumper;
+
+    private Button _operatorLeftTrigger;
+    private Button _operatorRightTrigger;
 
 
     public OI() {
@@ -30,39 +36,45 @@ public class OI {
         _operatorLeftBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.LEFT_BUMPER.getNumber());
         _operatorRightBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.RIGHT_BUMPER.getNumber());
 
+        _operatorLeftTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+        _operatorRightTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+
 
     }
 
     public void initializeButtons(Robot robot) {
         _driverLeftBumper.whenPressed(new OpenPincer(robot.getPincer()));
         _driverRightBumper.whenPressed(new ClosePincer(robot.getPincer()));
-        _operatorLeftBumper.whenPressed(new OpenPincer(robot.getPincer()));
-        _operatorRightBumper.whenPressed(new ClosePincer(robot.getPincer()));
+
+        _operatorLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
+        _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
+
+        _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
     }
 
     public double getDriveSpeed() {
-        double speed = -getSpeedFromAxis(_driverGamepad, 1);
+        double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_Y.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
 
     }
 
     public double getDriveRotation() {
-        double speed = getSpeedFromAxis(_driverGamepad, 4);
+        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_X.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
-        return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+        return applySensitivityFactor(speed, Constants.DriveTrain.ROTATION_SENSITIVITY);
 
     }
 
     public double getLeftSpeed() {
-        double speed = -getSpeedFromAxis(_driverGamepad, 1);
+        double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_Y.getNumber());
         speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
     }
 
 
     public double getRightSpeed() {
-        double speed = -getSpeedFromAxis(_driverGamepad, 5);
+        double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_Y.getNumber());
         speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
     }
