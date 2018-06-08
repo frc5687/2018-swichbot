@@ -39,6 +39,7 @@ public class Arm extends Subsystem {
         _direction = (int)Math.copySign(1, speed);
 
         // See if we are drawing too much power...
+        /**
         if (_pdp.getCurrent(RobotMap.PDP.ARM_VICTOR) > Constants.Arm.CURRENT_CAP) {
             // If this is the start of an excess draw condition, record it
             DriverStation.reportError("Arm cap of " + Constants.Arm.CURRENT_CAP + " exceeded at " + _pdp.getCurrent(RobotMap.PDP.ARM_VICTOR), false);
@@ -66,7 +67,7 @@ public class Arm extends Subsystem {
             _capTimeout = 0;
             _capDirection = 0;
         }
-
+        **/
         if (speed > 0 && atFrontLimit()) {
             speed = 0;
         } else if (speed < 0 && atRearLimit()) {

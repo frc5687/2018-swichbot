@@ -45,7 +45,7 @@ public class Pincer extends Subsystem {
                 runIntake(Constants.Intake.INTAKE_SPEED);
                 break;
             case EJECT:
-                runIntake(Constants.Intake.HOLD_SPEED);
+                runIntake(Constants.Intake.EJECT_SPEED);
                 break;
             default:
                 runIntake(0);
@@ -53,7 +53,7 @@ public class Pincer extends Subsystem {
     }
 
     public void runIntake(double speed) {
-        _intakeMotor.set(speed);
+        _intakeMotor.set(-speed);
     }
 
 

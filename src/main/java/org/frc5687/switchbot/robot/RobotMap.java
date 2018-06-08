@@ -13,15 +13,15 @@ public class RobotMap {
     }
 
     public static class PWM {
-        public static final int ARM_MOTOR = 0;
-        public static final int INTAKE_MOTOR = 1;
+        public static final int ARM_MOTOR = 1;
+        public static final int INTAKE_MOTOR = 0;
     }
 
     public static class PCM {
-        public static final int LEFT_PINCER_OPEN = 0;
-        public static final int LEFT_PINCER_CLOSE = 1;
-        public static final int RIGHT_PINCER_OPEN = 2;
-        public static final int RIGHT_PINCER_CLOSE = 3;
+        public static final int LEFT_PINCER_OPEN = 1;
+        public static final int LEFT_PINCER_CLOSE = 0;
+        public static final int RIGHT_PINCER_OPEN = 3;
+        public static final int RIGHT_PINCER_CLOSE = 2;
         public static final int SHIFTER_HIGH = 4;
         public static final int SHIFTER_LOW = 5;
     }
