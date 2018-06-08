@@ -35,5 +35,6 @@ public class Constants {
         public static final double HOLD_SPEED = -0.2;
         public static final double INTAKE_SPEED = -1.0;
         public static final double EJECT_SPEED = 1.0;
+        public static final long EJECT_TIME_MILLIS = 500;
     }
 }

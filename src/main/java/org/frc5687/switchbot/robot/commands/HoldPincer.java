@@ -14,6 +14,10 @@ public class HoldPincer extends Command {
         _pincer = pincer;
         requires(_pincer);
     }
+    @Override
+    protected void execute() {
+        _pincer.runIntake();
+    }
 
     @Override
     protected boolean isFinished() {
