@@ -18,13 +18,16 @@ public class OI {
     protected Gamepad _driverGamepad;
     protected Gamepad _operatorGamepad;
 
-    private JoystickButton _driverLeftBumper;
-    private JoystickButton _driverRightBumper;
-    private JoystickButton _operatorLeftBumper;
+    private Button _driverLeftBumper;
+    private Button _driverRightBumper;
+    private Button _operatorLeftBumper;
     private Button _operatorRightBumper;
 
     private Button _operatorLeftTrigger;
     private Button _operatorRightTrigger;
+
+    private Button _driverLeftTrigger;
+    private Button _driverRightTrigger;
 
 
     public OI() {
@@ -33,18 +36,24 @@ public class OI {
 
         _driverLeftBumper = new JoystickButton(_driverGamepad, Gamepad.Buttons.LEFT_BUMPER.getNumber());
         _driverRightBumper = new JoystickButton(_driverGamepad, Gamepad.Buttons.RIGHT_BUMPER.getNumber());
+
         _operatorLeftBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.LEFT_BUMPER.getNumber());
         _operatorRightBumper = new JoystickButton(_operatorGamepad, Gamepad.Buttons.RIGHT_BUMPER.getNumber());
 
-        _operatorLeftTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
-        _operatorRightTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+        _driverLeftTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+        _driverRightTrigger = new AxisButton(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+
+        _operatorLeftTrigger = new AxisButton(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
+        _operatorRightTrigger = new AxisButton(_operatorGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
 
 
     }
 
     public void initializeButtons(Robot robot) {
-        _driverLeftBumper.whenPressed(new OpenPincer(robot.getPincer()));
-        _driverRightBumper.whenPressed(new ClosePincer(robot.getPincer()));
+        _driverLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
+        _driverLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
+
+        _driverRightTrigger.whenPressed(new Eject(robot.getPincer()));
 
         _operatorLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
