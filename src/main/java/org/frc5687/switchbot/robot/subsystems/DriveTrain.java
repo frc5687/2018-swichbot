@@ -11,6 +11,7 @@ import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.RobotMap;
 import org.frc5687.switchbot.robot.commands.ArcadeDrive;
+import org.frc5687.switchbot.robot.commands.TankDrive;
 import sun.util.resources.cldr.or.CalendarData_or_IN;
 
 import static org.frc5687.switchbot.robot.utils.Helpers.limit;
@@ -102,6 +103,8 @@ public class DriveTrain extends Subsystem{
 
     @Override
     protected void initDefaultCommand() {
+        // !!! You can switch between tank and arcade by changing which line below is commented out.
+        // setDefaultCommand(new TankDrive(this, _robot.getOI()));
         setDefaultCommand(new ArcadeDrive(this, _robot.getOI()));
     }
 
