@@ -30,4 +30,10 @@ public class Constants {
         public static final double DEADBAND = 0.1;
         public static final double SENSITIVITY = 0.75;
     }
+
+    public static class Intake {
+        public static final double HOLD_SPEED = -0.2;
+        public static final double INTAKE_SPEED = -1.0;
+        public static final double EJECT_SPEED = 1.0;
+    }
 }

@@ -14,6 +14,7 @@ public class RobotMap {
 
     public static class PWM {
         public static final int ARM_MOTOR = 0;
+        public static final int INTAKE_MOTOR = 1;
     }
 
     public static class PCM {

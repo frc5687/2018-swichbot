@@ -8,6 +8,7 @@ import org.frc5687.switchbot.robot.subsystems.Pincer;
  */
 public class OpenPincer extends Command {
     private Pincer _pincer;
+    private boolean _done = false;
 
     public OpenPincer(Pincer pincer) {
         _pincer = pincer;
@@ -15,12 +16,20 @@ public class OpenPincer extends Command {
     }
 
     @Override
+    protected void initialize() {
+        _done = false;
+    }
+
+    @Override
     protected boolean isFinished() {
-        return false;
+        return _done;
     }
 
     @Override
     protected void execute() {
         _pincer.open();
+        _pincer.setIntakeState(Pincer.IntakeState.INTAKE);
+        _pincer.runIntake();
+        _done = true;
     }
 }
