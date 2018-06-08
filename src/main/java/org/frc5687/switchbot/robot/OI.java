@@ -5,14 +5,15 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.frc5687.switchbot.robot.commands.ClosePincer;
 import org.frc5687.switchbot.robot.commands.OpenPincer;
 import org.frc5687.switchbot.robot.utils.Gamepad;
+import org.frc5687.switchbot.robot.utils.Helpers;
 
 import static org.frc5687.switchbot.robot.utils.Helpers.applyDeadband;
 import static org.frc5687.switchbot.robot.utils.Helpers.applySensitivityFactor;
 
 public class OI {
 
-    private Gamepad _driverGamepad;
-    private Gamepad _operatorGamepad;
+    protected Gamepad _driverGamepad;
+    protected Gamepad _operatorGamepad;
 
     private JoystickButton _driverLeftBumper;
     private JoystickButton _driverRightBumper;
@@ -47,19 +48,33 @@ public class OI {
     }
 
     public double getDriveRotation() {
-        double speed = getSpeedFromAxis(_driverGamepad, 0);
+        double speed = getSpeedFromAxis(_driverGamepad, 4);
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
 
     }
 
-    private double getSpeedFromAxis(Joystick gamepad, int axisNumber) {
+    public double getLeftSpeed() {
+        double speed = -getSpeedFromAxis(_driverGamepad, 1);
+        speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
+        return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+    }
+
+
+    public double getRightSpeed() {
+        double speed = -getSpeedFromAxis(_driverGamepad, 5);
+        speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
+        return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+    }
+
+
+    protected double getSpeedFromAxis(Joystick gamepad, int axisNumber) {
         return gamepad.getRawAxis(axisNumber);
     }
 
 
     public double getArmSpeed() {
-        double speed = -getSpeedFromAxis(_driverGamepad, 5);
+        double speed = -getSpeedFromAxis(_operatorGamepad, 5);
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
