@@ -16,7 +16,7 @@ public class Pincer extends Subsystem {
     private DoubleSolenoid _leftSolenoid;
     private DoubleSolenoid _rightSolenoid;
     private VictorSP _intakeMotor;
-    private IntakeState _intakeState;
+    private IntakeState _intakeState = IntakeState.HOLD;
 
     public Pincer(Robot robot) {
         _robot = robot;
