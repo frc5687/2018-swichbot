@@ -27,7 +27,8 @@ public class RobotMap {
     }
 
     public static class PDP {
-        public static final int ARM_VICTOR = 14;
+        public static final int ARM_VICTOR = 3;
+        public static final int INTAKE_VICTOR = 14;
     }
 
     public static class Analog {

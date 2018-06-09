@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.RobotMap;
+import org.frc5687.switchbot.robot.commands.AllDrive;
 import org.frc5687.switchbot.robot.commands.ArcadeDrive;
 import org.frc5687.switchbot.robot.commands.TankDrive;
 import sun.util.resources.cldr.or.CalendarData_or_IN;
@@ -33,6 +34,7 @@ public class DriveTrain extends Subsystem{
     VictorSPX _rightFollowerB;
 
     private Robot _robot;
+    private DriveMode _driveMode = DriveMode.TANK;
 
     public DriveTrain(Robot robot) {
         _robot = robot;
@@ -103,9 +105,7 @@ public class DriveTrain extends Subsystem{
 
     @Override
     protected void initDefaultCommand() {
-        // !!! You can switch between tank and arcade by changing which line below is commented out.
-        // setDefaultCommand(new TankDrive(this, _robot.getOI()));
-        setDefaultCommand(new ArcadeDrive(this, _robot.getOI()));
+        setDefaultCommand(new AllDrive(this, _robot.getOI()));
     }
 
     public void setPower(double leftSpeed, double rightSpeed) {
@@ -173,6 +173,8 @@ public class DriveTrain extends Subsystem{
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed, boolean overrideCaps) {
+        SmartDashboard.putNumber("DriveTrain/LeftSpeed", leftSpeed);
+        SmartDashboard.putNumber("DriveTrain/RightSpeed", rightSpeed);
         double leftMotorOutput = leftSpeed;
         double rightMotorOutput = rightSpeed;
 
@@ -180,6 +182,69 @@ public class DriveTrain extends Subsystem{
         _rightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput) * Constants.DriveTrain.HIGH_POW);
     }
 
+    /*
+    public void curvaturerive(double speed, double rotation, boolean isQuickTurn) {
+
+        speed = limit(speed);
+
+        rotation = limit(rotation);
+
+        double angularPower;
+        boolean overPower;
+
+        if (isQuickTurn) {
+            if (Math.abs(speed) < m_quickStopThreshold) {
+                m_quickStopAccumulator = (1 - m_quickStopAlpha) * m_quickStopAccumulator
+                        + m_quickStopAlpha * limit(zRotation) * 2;
+            }
+            overPower = true;
+            angularPower = zRotation;
+        } else {
+            overPower = false;
+            angularPower = Math.abs(xSpeed) * zRotation - m_quickStopAccumulator;
+
+            if (m_quickStopAccumulator > 1) {
+                m_quickStopAccumulator -= 1;
+            } else if (m_quickStopAccumulator < -1) {
+                m_quickStopAccumulator += 1;
+            } else {
+                m_quickStopAccumulator = 0.0;
+            }
+        }
+
+        double leftMotorOutput = xSpeed + angularPower;
+        double rightMotorOutput = xSpeed - angularPower;
+
+        // If rotation is overpowered, reduce both outputs to within acceptable range
+        if (overPower) {
+            if (leftMotorOutput > 1.0) {
+                rightMotorOutput -= leftMotorOutput - 1.0;
+                leftMotorOutput = 1.0;
+            } else if (rightMotorOutput > 1.0) {
+                leftMotorOutput -= rightMotorOutput - 1.0;
+                rightMotorOutput = 1.0;
+            } else if (leftMotorOutput < -1.0) {
+                rightMotorOutput -= leftMotorOutput + 1.0;
+                leftMotorOutput = -1.0;
+            } else if (rightMotorOutput < -1.0) {
+                leftMotorOutput -= rightMotorOutput + 1.0;
+                rightMotorOutput = -1.0;
+            }
+        }
+
+        // Normalize the wheel speeds
+        double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+        if (maxMagnitude > 1.0) {
+            leftMotorOutput /= maxMagnitude;
+            rightMotorOutput /= maxMagnitude;
+        }
+
+        m_leftMotor.set(leftMotorOutput * m_maxOutput);
+        m_rightMotor.set(-rightMotorOutput * m_maxOutput);
+
+        m_safetyHelper.feed();
+    }
+*/
 
     public double getLeftSpeed() {
         return _leftMaster.getMotorOutputPercent() / Constants.DriveTrain.HIGH_POW;
@@ -187,6 +252,27 @@ public class DriveTrain extends Subsystem{
 
     public double getRightSpeed() {
         return _rightMaster.getMotorOutputPercent() / Constants.DriveTrain.HIGH_POW;
+    }
+
+    public DriveMode getDriveMode() { return _driveMode; }
+
+    public void setDriveMode(DriveMode driveMode) { _driveMode = driveMode; }
+
+    public enum DriveMode {
+        TANK(0),
+        ARCADE(1),
+        ARC(2);
+
+        private int _value;
+
+        DriveMode(int value) {
+            this._value = value;
+        }
+
+        public int getValue() {
+            return _value;
+        }
+
     }
 
 }

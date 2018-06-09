@@ -2,6 +2,7 @@ package org.frc5687.switchbot.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
@@ -14,7 +15,7 @@ import org.frc5687.switchbot.robot.utils.PDP;
 /**
  * Created by Ben Bernard on 6/5/2018.
  */
-public class Arm extends Subsystem {
+public class Arm extends PIDSubsystem {
     private Robot _robot;
     private VictorSP _motor;
     private PDP _pdp;
@@ -27,11 +28,18 @@ public class Arm extends Subsystem {
     private long _capTimeout = 0;
     private int _capDirection = 0;
 
+    public static final double kP = 0.01;
+    public static final double kI = 0.0001;
+    public static final double kD = 0.0000;
+    public static final double kF = 0;
+
     public Arm(Robot robot) {
+        super("Arm", kP, kI, kD, kF, 0.02);
+        this.setOutputRange(-0.5, 0.5);
         _robot = robot;
         _motor = new VictorSP(RobotMap.PWM.ARM_MOTOR);
         _pdp = robot.getPDP();
-        _pot = new AnglePotentiometer(RobotMap.Analog.POTENTIOMETER, 115.0, 0.96, -115.0,  0.30);
+        _pot = new AnglePotentiometer(RobotMap.Analog.POTENTIOMETER, 120.0, 0.969, -120.0,  0.328);
     }
 
 
@@ -39,7 +47,6 @@ public class Arm extends Subsystem {
         _direction = (int)Math.copySign(1, speed);
 
         // See if we are drawing too much power...
-        /**
         if (_pdp.getCurrent(RobotMap.PDP.ARM_VICTOR) > Constants.Arm.CURRENT_CAP) {
             // If this is the start of an excess draw condition, record it
             DriverStation.reportError("Arm cap of " + Constants.Arm.CURRENT_CAP + " exceeded at " + _pdp.getCurrent(RobotMap.PDP.ARM_VICTOR), false);
@@ -67,7 +74,7 @@ public class Arm extends Subsystem {
             _capTimeout = 0;
             _capDirection = 0;
         }
-        **/
+
         if (speed > 0 && atFrontLimit()) {
             speed = 0;
         } else if (speed < 0 && atRearLimit()) {
@@ -77,14 +84,30 @@ public class Arm extends Subsystem {
         _motor.set(-speed);
     }
 
+    public double getPot() { return _pot.get(); }
+
+    public double getAngle() {
+        return getPot();
+    }
+
     public boolean atFrontLimit() {
-        return _atFrontLimit;
+        return /*_atFrontLimit || */ getAngle() > 115;
     }
 
     public boolean atRearLimit() {
-        return _atRearLimit;
+        return /*_atRearLimit || */ getAngle() < -115;
     }
 
+    @Override
+    protected double returnPIDInput() {
+        return getPot();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        SmartDashboard.putNumber("Arm/PID output", output);
+        drive(output);
+    }
 
     @Override
     protected void initDefaultCommand() {

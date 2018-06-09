@@ -30,10 +30,17 @@ public class Constants {
         public static final long TIMEOUT_CAP = 100;
         public static final double DEADBAND = 0.1;
         public static final double SENSITIVITY = 0.75;
+
+        public static final double FRONT_FLAT = 110.0;
+        public static final double FRONT_SWITCH = 30.0;
+        public static final double UP = 0;
+        public static final double BACK_SWITCH = -30.0;
+        public static final double BACK_FLAT = -100.0;
+
     }
 
     public static class Intake {
-        public static final double HOLD_SPEED = -0.2;
+        public static final double HOLD_SPEED = -0.75;
         public static final double INTAKE_SPEED = -1.0;
         public static final double EJECT_SPEED = 1.0;
         public static final long EJECT_TIME_MILLIS = 500;

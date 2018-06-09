@@ -3,10 +3,8 @@ package org.frc5687.switchbot.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.frc5687.switchbot.robot.commands.ClosePincer;
-import org.frc5687.switchbot.robot.commands.Eject;
-import org.frc5687.switchbot.robot.commands.OpenPincer;
-import org.frc5687.switchbot.robot.commands.Shift;
+import org.frc5687.switchbot.robot.commands.*;
+import org.frc5687.switchbot.robot.subsystems.DriveTrain;
 import org.frc5687.switchbot.robot.subsystems.Shifter;
 import org.frc5687.switchbot.robot.utils.AxisButton;
 import org.frc5687.switchbot.robot.utils.Gamepad;
@@ -31,6 +29,19 @@ public class OI {
     private Button _driverLeftTrigger;
     private Button _driverRightTrigger;
 
+    private Button _driverStartButton;
+    private Button _driverBackButton;
+
+    private Button _operatorYButton;
+    private Button _operatorXButton;
+    private Button _operatorBButton;
+    private Button _operatorAButton;
+
+    private Button _driverYButton;
+    private Button _driverXButton;
+    private Button _driverBButton;
+    private Button _driverAButton;
+
 
     public OI() {
         _driverGamepad = new Gamepad(0);
@@ -48,6 +59,20 @@ public class OI {
         _operatorLeftTrigger = new AxisButton(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
         _operatorRightTrigger = new AxisButton(_operatorGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber(), Constants.OI.AXIS_BUTTON_THRESHHOLD);
 
+        _driverStartButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.START.getNumber());
+        _driverBackButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.BACK.getNumber());
+
+
+        _operatorYButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.Y.getNumber());
+        _operatorXButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.X.getNumber());
+        _operatorAButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.A.getNumber());
+        _operatorBButton = new JoystickButton(_operatorGamepad, Gamepad.Buttons.B.getNumber());
+
+
+        _driverYButton = new JoystickButton(_driverGamepad, Gamepad.Buttons.Y.getNumber());
+        _driverXButton = new JoystickButton(_driverGamepad, Gamepad.Buttons.X.getNumber());
+        _driverAButton = new JoystickButton(_driverGamepad, Gamepad.Buttons.A.getNumber());
+        _driverBButton = new JoystickButton(_driverGamepad, Gamepad.Buttons.B.getNumber());
 
     }
 
@@ -64,6 +89,20 @@ public class OI {
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
         _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
+
+        _operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
+        _operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
+
+        _operatorYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
+        _operatorBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
+        _operatorXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
+        _operatorAButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_FLAT));
+
+        _driverYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
+        _driverBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
+        _driverXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
+        _driverAButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_FLAT));
+
     }
 
     public double getDriveSpeed() {
@@ -99,7 +138,7 @@ public class OI {
 
 
     public double getArmSpeed() {
-        double speed = -getSpeedFromAxis(_operatorGamepad, 5);
+        double speed = -getSpeedFromAxis(_operatorGamepad, 5) * .75;
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
