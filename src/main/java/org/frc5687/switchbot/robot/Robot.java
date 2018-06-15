@@ -1,12 +1,18 @@
 package org.frc5687.switchbot.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.frc5687.switchbot.robot.commands.AutoGroup;
 import org.frc5687.switchbot.robot.subsystems.Arm;
 import org.frc5687.switchbot.robot.subsystems.DriveTrain;
 import org.frc5687.switchbot.robot.subsystems.Pincer;
 import org.frc5687.switchbot.robot.subsystems.Shifter;
+import org.frc5687.switchbot.robot.utils.AutoChooser;
 import org.frc5687.switchbot.robot.utils.PDP;
 
 public class Robot extends TimedRobot {
@@ -20,6 +26,12 @@ public class Robot extends TimedRobot {
 
     private OI _oi;
     private PDP _pdp;
+    private AHRS _imu;
+    private UsbCamera _camera0;
+
+    private AutoChooser _autoChooser;
+
+    private Command _autoCommand;
 
     public Robot() {
     }
@@ -34,6 +46,7 @@ public class Robot extends TimedRobot {
         _instance = this;
         setPeriod(1 / Constants.CYCLES_PER_SECOND);
         LiveWindow.disableAllTelemetry();
+        _imu = new AHRS(SPI.Port.kMXP, (byte) 100);
 
         _pdp = new PDP();
         _oi = new OI();
@@ -43,6 +56,16 @@ public class Robot extends TimedRobot {
         _shifter = new Shifter(_instance);
 
         _oi.initializeButtons(_instance);
+        _autoChooser = new AutoChooser();
+
+        try {
+            _camera0 = CameraServer.getInstance().startAutomaticCapture(0);
+            _camera0.setResolution(320, 240);
+            _camera0.setFPS(30);
+        } catch (Exception e) {
+            DriverStation.reportError(e.getMessage(), true);
+        }
+
     }
 
     @Override
@@ -56,19 +79,69 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {
-        Scheduler.getInstance().run();
+    public void disabledPeriodic() {
         updateDashboard();
     }
 
     @Override
-    public void disabledPeriodic() {
+    public void autonomousInit() {
+        _imu.reset();
+        _drivetrain.resetDriveEncoders();
+        _drivetrain.enableBrakeMode();
+        _drivetrain.setCurrentLimiting(20);
+
+        String gameData = DriverStation.getInstance().getGameSpecificMessage();
+        if (gameData==null) { gameData = ""; }
+        int retries = 100;
+        while (gameData.length() < 2 && retries > 0) {
+            DriverStation.reportError("Gamedata is " + gameData + " retrying " + retries, false);
+            try {
+                Thread.sleep(5);
+                gameData = DriverStation.getInstance().getGameSpecificMessage();
+                if (gameData==null) { gameData = ""; }
+            } catch (Exception e) {
+            }
+            retries--;
+        }
+        SmartDashboard.putString("Auto/gameData", gameData);
+        DriverStation.reportError("gameData before parse: " + gameData, false);
+        int switchSide = 0;
+        if (gameData.length()>0) {
+            switchSide = gameData.charAt(0)=='L' ? Constants.AutoChooser.LEFT : Constants.AutoChooser.RIGHT;
+        }
+        int autoPosition = _autoChooser.positionSwitchValue();
+        SmartDashboard.putNumber("Auto/SwitchSide", switchSide);
+        SmartDashboard.putNumber("Auto/Position", autoPosition);
+        DriverStation.reportError("Running AutoGroup with position: " + autoPosition + ",  switchSide: " + switchSide , false);
+        _autoCommand = new AutoGroup(autoPosition, switchSide, this);
+        _autoCommand.start();
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+        updateDashboard();
+    }
+
+
+    @Override
+    public void teleopInit() {
+        if (_autoCommand != null) _autoCommand.cancel();
+        _drivetrain.enableCoastMode();
+        _drivetrain.setCurrentLimiting(20);
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        Scheduler.getInstance().run();
         updateDashboard();
     }
 
     public void updateDashboard() {
         _pdp.updateDashboard();
         _arm.updateDashboard();
+        _autoChooser.updateDashboard();
+        _drivetrain.updateDashboard();
     }
 
     public OI getOI() { return _oi; }
@@ -77,4 +150,5 @@ public class Robot extends TimedRobot {
     public PDP getPDP() { return _pdp; }
     public Arm getArm() { return _arm; }
     public Shifter getShifter() { return _shifter; }
+    public AHRS getIMU() { return _imu; }
 }

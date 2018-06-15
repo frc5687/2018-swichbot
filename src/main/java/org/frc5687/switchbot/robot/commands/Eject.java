@@ -24,12 +24,17 @@ public class Eject extends Command {
 
     @Override
     protected boolean isFinished() {
-        return _endtime > System.currentTimeMillis();
+        return System.currentTimeMillis() > _endtime;
     }
 
     @Override
     protected void execute() {
         _pincer.setIntakeState(Pincer.IntakeState.EJECT);
         _pincer.runIntake();
+    }
+
+    @Override
+    protected void end() {
+        _pincer.setIntakeState(Pincer.IntakeState.HOLD);
     }
 }

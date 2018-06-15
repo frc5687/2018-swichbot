@@ -29,13 +29,13 @@ public class Arm extends PIDSubsystem {
     private int _capDirection = 0;
 
     public static final double kP = 0.01;
-    public static final double kI = 0.0001;
+    public static final double kI = 0.00001;
     public static final double kD = 0.0000;
     public static final double kF = 0;
 
     public Arm(Robot robot) {
         super("Arm", kP, kI, kD, kF, 0.02);
-        this.setOutputRange(-0.5, 0.5);
+        this.setOutputRange(-0.4, 0.4);
         _robot = robot;
         _motor = new VictorSP(RobotMap.PWM.ARM_MOTOR);
         _pdp = robot.getPDP();

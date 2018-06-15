@@ -2,9 +2,14 @@ package org.frc5687.switchbot.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.IMUProtocol;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
@@ -20,7 +25,7 @@ import static org.frc5687.switchbot.robot.utils.Helpers.limit;
 /**
  * Created by Ben Bernard on 6/4/2018.
  */
-public class DriveTrain extends Subsystem{
+public class DriveTrain extends Subsystem  implements PIDSource {
     // Add the objects for the motor controllers
 
     // Left side needs one TalonSRX master and two VictorSPX followers
@@ -35,9 +40,11 @@ public class DriveTrain extends Subsystem{
 
     private Robot _robot;
     private DriveMode _driveMode = DriveMode.TANK;
+    public AHRS _imu;
 
     public DriveTrain(Robot robot) {
         _robot = robot;
+        _imu = robot.getIMU();
 
         // Motor Initialization
         _leftMaster = new TalonSRX(RobotMap.CAN.LEFT_MASTER);
@@ -109,14 +116,17 @@ public class DriveTrain extends Subsystem{
     }
 
     public void setPower(double leftSpeed, double rightSpeed) {
+        setPower(leftSpeed, rightSpeed, false);
+    }
+    public void setPower(double leftSpeed, double rightSpeed, boolean override) {
         try {
             _leftMaster.set(ControlMode.PercentOutput, leftSpeed);
             _rightMaster.set(ControlMode.PercentOutput, rightSpeed);
         } catch (Exception e) {
             DriverStation.reportError("DriveTrain.setPower exception: " + e.toString(), false);
         }
-        SmartDashboard.putNumber("DriveTrain/Speed/Right", rightSpeed);
-        SmartDashboard.putNumber("DriveTrain/Speed/Left", leftSpeed);
+        SmartDashboard.putNumber("DriveTrain/PowerRight", rightSpeed);
+        SmartDashboard.putNumber("DriveTrain/PowerLeft", leftSpeed);
     }
 
 
@@ -168,8 +178,7 @@ public class DriveTrain extends Subsystem{
             }
         }
 
-        _leftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput) * Constants.DriveTrain.HIGH_POW);
-        _rightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput) * Constants.DriveTrain.HIGH_POW);
+        setPower(leftMotorOutput, rightMotorOutput);
     }
 
     public void tankDrive(double leftSpeed, double rightSpeed, boolean overrideCaps) {
@@ -178,9 +187,53 @@ public class DriveTrain extends Subsystem{
         double leftMotorOutput = leftSpeed;
         double rightMotorOutput = rightSpeed;
 
-        _leftMaster.set(ControlMode.PercentOutput, limit(leftMotorOutput) * Constants.DriveTrain.HIGH_POW);
-        _rightMaster.set(ControlMode.PercentOutput, limit(rightMotorOutput) * Constants.DriveTrain.HIGH_POW);
+
+
+        setPower(leftMotorOutput, rightMotorOutput);
     }
+
+    public float getYaw() {
+        return _imu.getYaw();
+    }
+
+    /**
+     * Get the number of ticks since the last reset
+     * @return
+     */
+    public long getLeftTicks() {
+        return _leftMaster.getSelectedSensorPosition(0);
+    }
+    public long getRightTicks() {
+        return _rightMaster.getSelectedSensorPosition(0);
+    }
+
+    /**
+     * The left distance in Inches since the last reset.
+     * @return
+     */
+    public double getLeftDistance() {
+        return getLeftTicks() * Constants.Encoders.INCHES_PER_PULSE;
+    }
+    public double getRightDistance() {
+        return getRightTicks() * Constants.Encoders.INCHES_PER_PULSE;
+    }
+
+
+    /**
+     * @return average of leftDistance and rightDistance
+     */
+    public double getDistance() {
+        if (Math.abs(getRightTicks())<10) {
+            return getLeftDistance();
+        }
+        if (Math.abs(getLeftTicks())<10) {
+            return getRightDistance();
+        }
+        return (getLeftDistance() + getRightDistance()) / 2;
+    }
+
+
+
 
     /*
     public void curvaturerive(double speed, double rotation, boolean isQuickTurn) {
@@ -246,6 +299,14 @@ public class DriveTrain extends Subsystem{
     }
 */
 
+    public void setCurrentLimiting(int amps) {
+        _leftMaster.configContinuousCurrentLimit(amps, 0);
+        _leftMaster.configPeakCurrentLimit(0, 0);
+        _rightMaster.configContinuousCurrentLimit(amps, 0);
+        _rightMaster.configPeakCurrentLimit(0, 0);
+    }
+
+
     public double getLeftSpeed() {
         return _leftMaster.getMotorOutputPercent() / Constants.DriveTrain.HIGH_POW;
     }
@@ -256,7 +317,52 @@ public class DriveTrain extends Subsystem{
 
     public DriveMode getDriveMode() { return _driveMode; }
 
+    @Override
+    public double pidGet() {
+        return getDistance();
+    }
+
+    @Override
+    public PIDSourceType getPIDSourceType() {
+        return PIDSourceType.kDisplacement;
+    }
+
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+    }
+
     public void setDriveMode(DriveMode driveMode) { _driveMode = driveMode; }
+
+    public void enableBrakeMode() {
+        try {
+            _leftMaster.setNeutralMode(NeutralMode.Brake);
+            _leftFollowerA.setNeutralMode(NeutralMode.Brake);
+            _leftFollowerB.setNeutralMode(NeutralMode.Brake);
+
+            _rightMaster.setNeutralMode(NeutralMode.Brake);
+            _rightFollowerA.setNeutralMode(NeutralMode.Brake);
+            _rightFollowerB.setNeutralMode(NeutralMode.Brake);
+
+        } catch (Exception e) {
+            DriverStation.reportError("DriveTrain.enableBrakeMode exception: " + e.toString(), false);
+        }
+        SmartDashboard.putString("DriveTrain/neutralMode", "Brake");
+    }
+
+    public void enableCoastMode() {
+        try {
+            _leftMaster.setNeutralMode(NeutralMode.Coast);
+            _leftFollowerA.setNeutralMode(NeutralMode.Coast);
+            _leftFollowerB.setNeutralMode(NeutralMode.Coast);
+            _rightMaster.setNeutralMode(NeutralMode.Coast);
+            _rightFollowerA.setNeutralMode(NeutralMode.Coast);
+        } catch (Exception e) {
+            DriverStation.reportError("DriveTrain.enableCoastMode exception: " + e.toString(), false);
+        }
+        SmartDashboard.putString("DriveTrain/neutralMode", "Coast");
+    }
+
+
 
     public enum DriveMode {
         TANK(0),
@@ -273,6 +379,11 @@ public class DriveTrain extends Subsystem{
             return _value;
         }
 
+    }
+
+    public void updateDashboard() {
+        SmartDashboard.putNumber("Drivetrain/LeftDistance", getLeftDistance());
+        SmartDashboard.putNumber("Drivetrain/RIghtDistance", getRightDistance());
     }
 
 }

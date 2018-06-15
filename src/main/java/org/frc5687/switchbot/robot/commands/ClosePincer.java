@@ -1,5 +1,6 @@
 package org.frc5687.switchbot.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import org.frc5687.switchbot.robot.subsystems.Pincer;
 
@@ -17,6 +18,7 @@ public class ClosePincer extends Command {
 
     @Override
     protected void initialize() {
+        DriverStation.reportError("Starting ClosePincer", false);
         _done = false;
     }
 
@@ -27,9 +29,15 @@ public class ClosePincer extends Command {
 
     @Override
     protected void execute() {
+
         _pincer.close();
         _pincer.setIntakeState(Pincer.IntakeState.HOLD);
         _pincer.runIntake();
         _done = true;
+    }
+
+    @Override
+    protected void end() {
+        DriverStation.reportError("Ending ClosePincer", false);
     }
 }
