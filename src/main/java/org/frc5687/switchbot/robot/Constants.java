@@ -37,6 +37,12 @@ public class Constants {
         public static final double BACK_SWITCH = -30.0;
         public static final double BACK_FLAT = -100.0;
 
+        public static final double ANGLE_MIN = -110;
+        public static final double ANGLE_MAX = 110;
+        public static final double POT_MIN = 0.036;
+        public static final double POT_MAX = 0.658;
+
+        public static final double SPEED_MAX = 1.0;
     }
 
     public static class Intake {
@@ -95,9 +101,9 @@ public class Constants {
 
             public static final double kP = 0.04;
             public static final double kI = 0.0;
-            public static final double kD = 0.3;
-            public static final double TOLERANCE = 1.0; // 0.5
-            public static final double MINIMUM_SPEED = 0.5;
+            public static final double kD = 0.4;
+            public static final double TOLERANCE = .5; // 0.5
+            public static final double MINIMUM_SPEED = 0.2;
             public static final double MAX_OUTPUT = 0;
             /*
              *time the angle must be on target for to be considered steady

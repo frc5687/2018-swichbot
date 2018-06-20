@@ -28,18 +28,18 @@ public class Arm extends PIDSubsystem {
     private long _capTimeout = 0;
     private int _capDirection = 0;
 
-    public static final double kP = 0.01;
-    public static final double kI = 0.00001;
-    public static final double kD = 0.0000;
+    public static final double kP = 0.03;
+    public static final double kI = 0.0001;
+    public static final double kD = .01;
     public static final double kF = 0;
 
     public Arm(Robot robot) {
         super("Arm", kP, kI, kD, kF, 0.02);
-        this.setOutputRange(-0.4, 0.4);
+        this.setOutputRange(-Constants.Arm.SPEED_MAX, Constants.Arm.SPEED_MAX);
         _robot = robot;
         _motor = new VictorSP(RobotMap.PWM.ARM_MOTOR);
         _pdp = robot.getPDP();
-        _pot = new AnglePotentiometer(RobotMap.Analog.POTENTIOMETER, 120.0, 0.969, -120.0,  0.328);
+        _pot = new AnglePotentiometer(RobotMap.Analog.POTENTIOMETER, Constants.Arm.ANGLE_MIN, Constants.Arm.POT_MIN, Constants.Arm.ANGLE_MAX,  Constants.Arm.POT_MAX);
     }
 
 

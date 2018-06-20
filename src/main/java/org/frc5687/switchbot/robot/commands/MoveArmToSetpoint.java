@@ -36,13 +36,15 @@ public class MoveArmToSetpoint extends Command {
     @Override
     protected void end() {
         DriverStation.reportError("MoveArmToSetpointPID Ending", false);
-        _arm.disable();
-        _arm.drive(_oi.getArmSpeed());
+        if (!DriverStation.getInstance().isAutonomous()) {
+            _arm.disable();
+            _arm.drive(_oi.getArmSpeed());
+        }
     }
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(_oi.getArmSpeed())>0.1;
+        return (!DriverStation.getInstance().isAutonomous() &&  Math.abs(_oi.getArmSpeed())>0.1);
     }
 
 
@@ -52,6 +54,7 @@ public class MoveArmToSetpoint extends Command {
         _endMillis = System.currentTimeMillis() + _timeout;
         DriverStation.reportError("Starting MoveArmToSetpointPID to " + _target + " for max " + _timeout + "ms", false);
         _arm.setSetpoint(_target);
+        _arm.setAbsoluteTolerance(1.0);
         _arm.enable();
     }
 

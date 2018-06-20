@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
+import org.frc5687.switchbot.robot.subsystems.Shifter;
 
 import java.awt.*;
 
@@ -54,6 +55,12 @@ public class AutoGroup extends CommandGroup {
             case Constants.AutoChooser.Position.FAR_RIGHT: // Position 6, left side
                 buildAutoCross(robot);
                 break;
+            case -12: // Position 6, left side
+                this.addSequential(new AutoAlign(robot, -90, 1.0));
+                break;
+            case 12: // Position 6, left side
+                this.addSequential(new AutoAlign(robot, 90, 1.0));
+                break;
             default:
                 buildAutoCross(robot);
                 break;
@@ -66,6 +73,9 @@ public class AutoGroup extends CommandGroup {
     }
 
     private void straightSwitch(Robot robot) {
+        addSequential(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.LOW, true));
+        addSequential(new ClosePincer(robot.getPincer()));
+        addParallel(new HoldPincer(robot.getPincer()));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 48, .60, true, true, 5000, "StraightSwitch"));
         addSequential(new Eject(robot.getPincer()));

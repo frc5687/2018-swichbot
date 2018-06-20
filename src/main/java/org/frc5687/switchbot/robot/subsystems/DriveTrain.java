@@ -315,6 +315,14 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         return _rightMaster.getMotorOutputPercent() / Constants.DriveTrain.HIGH_POW;
     }
 
+    public double getLeftRate() {
+        return _leftMaster.getSelectedSensorVelocity(0);
+    }
+
+    public double getRightRate() {
+        return _rightMaster.getSelectedSensorVelocity(0);
+    }
+
     public DriveMode getDriveMode() { return _driveMode; }
 
     @Override
@@ -384,6 +392,10 @@ public class DriveTrain extends Subsystem  implements PIDSource {
     public void updateDashboard() {
         SmartDashboard.putNumber("Drivetrain/LeftDistance", getLeftDistance());
         SmartDashboard.putNumber("Drivetrain/RIghtDistance", getRightDistance());
+        SmartDashboard.putNumber("Drivetrain/LeftRate", getLeftRate());
+        SmartDashboard.putNumber("Drivetrain/RightRate", getRightRate());
+        SmartDashboard.putNumber("Drivetrain/LeftSpeed", getLeftSpeed());
+        SmartDashboard.putNumber("Drivetrain/RightSpeed", getRightSpeed());
     }
 
 }

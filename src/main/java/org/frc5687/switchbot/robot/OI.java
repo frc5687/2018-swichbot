@@ -138,7 +138,7 @@ public class OI {
 
 
     public double getArmSpeed() {
-        double speed = -getSpeedFromAxis(_operatorGamepad, 5) * .75;
+        double speed = -getSpeedFromAxis(_operatorGamepad, 5) * Constants.Arm.SPEED_MAX;
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
