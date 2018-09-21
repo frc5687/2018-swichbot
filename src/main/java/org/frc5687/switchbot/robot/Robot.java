@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
     private PDP _pdp;
     private AHRS _imu;
     private UsbCamera _camera0;
+    private UsbCamera _camera1;
 
     private AutoChooser _autoChooser;
 
@@ -62,6 +63,14 @@ public class Robot extends TimedRobot {
             _camera0 = CameraServer.getInstance().startAutomaticCapture(0);
             _camera0.setResolution(320, 240);
             _camera0.setFPS(30);
+        } catch (Exception e) {
+            DriverStation.reportError(e.getMessage(), true);
+        }
+
+        try {
+            _camera1 = CameraServer.getInstance().startAutomaticCapture(1);
+            _camera1.setResolution(320, 240);
+            _camera1.setFPS(30);
         } catch (Exception e) {
             DriverStation.reportError(e.getMessage(), true);
         }

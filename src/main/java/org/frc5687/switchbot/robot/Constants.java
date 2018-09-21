@@ -4,9 +4,10 @@ public class Constants {
     public static final int CYCLES_PER_SECOND = 50;
 
     public static class DriveTrain {
-        public static final double DEADBAND = 0.2;
-        public static final double SENSITIVITY = 0.8 ;
-        public static final double ROTATION_SENSITIVITY = 0.8;
+        public static final double DEADBAND = 0.01;
+        public static final double SENSITIVITY_LOW_GEAR = 0.1;
+        public static final double SENSITIVITY_HIGH_GEAR = 0.3;
+        public static final double ROTATION_SENSITIVITY = 0.3;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
@@ -39,8 +40,8 @@ public class Constants {
 
         public static final double ANGLE_MIN = -110;
         public static final double ANGLE_MAX = 110;
-        public static final double POT_MIN = 0.036;
-        public static final double POT_MAX = 0.658;
+        public static final double POT_MIN = 0.065;
+        public static final double POT_MAX = 0.695;
 
         public static final double SPEED_MAX = 1.0;
     }
@@ -100,7 +101,7 @@ public class Constants {
             public static final double SPEED = 1.0;
 
             public static final double kP = 0.04;
-            public static final double kI = 0.0;
+            public static final double kI = 0.002;
             public static final double kD = 0.4;
             public static final double TOLERANCE = .5; // 0.5
             public static final double MINIMUM_SPEED = 0.2;
@@ -215,9 +216,9 @@ public class Constants {
         public class Position {
             public static final int FAR_LEFT = 1;
             public static final int MID_LEFT = 2;
-            public static final int CENTER = 3;
-            public static final int NEAR_RIGHT = 4;
-            public static final int MID_RIGHT = 5;
+            public static final int CENTER_LEFT = 3;
+            public static final int CENTER_RIGHT = 4;
+            public static final int NEAR_RIGHT = 5;
             public static final int FAR_RIGHT = 6;
         }
     }

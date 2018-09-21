@@ -34,9 +34,9 @@ public class AutoDrive extends Command {
     private DriveTrain driveTrain;
     private AHRS imu;
 
-    private double kPdistance = 0.05; // .07;
-    private double kIdistance = 0.001; // .001;
-    private double kDdistance = 0.5; //.1;
+    private double kPdistance = 0.005; // .07;
+    private double kIdistance = 0.0000; // .001;
+    private double kDdistance = 0.0; //.1;
     private double kTdistance = 0.5;
 
     private double kPangle = .01;
@@ -82,7 +82,6 @@ public class AutoDrive extends Command {
     @Override
     protected void initialize() {
         this.endMillis = maxMillis == 0 ? Long.MAX_VALUE : System.currentTimeMillis() + maxMillis;
-        driveTrain.resetDriveEncoders();
         driveTrain.enableBrakeMode();
         if (usePID) {
             distancePID = new PIDListener();
@@ -94,7 +93,7 @@ public class AutoDrive extends Command {
             distanceController = new PIDController(kPdistance, kIdistance, kDdistance, speed, driveTrain, distancePID, 0.01);
             distanceController.setAbsoluteTolerance(kTdistance);
             distanceController.setOutputRange(-speed, speed);
-            distanceController.setSetpoint(distance);
+            distanceController.setSetpoint(driveTrain.getDistance() + distance);
             distanceController.enable();
         }
 
@@ -120,6 +119,8 @@ public class AutoDrive extends Command {
         double angleFactor = 0;
         if (usePID) {
             distanceFactor = distancePID.get();
+            if (distanceFactor < 0) { distanceFactor = Math.min(distanceFactor, -0.3); }
+            if (distanceFactor > 0) { distanceFactor = Math.max(distanceFactor, 0.3); }
         } else {
             distanceFactor = distance > 0 ? speed : -speed;
         }
