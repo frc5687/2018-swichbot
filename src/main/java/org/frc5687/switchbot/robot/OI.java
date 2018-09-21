@@ -113,7 +113,7 @@ public class OI {
     }
 
     public double getDriveRotation() {
-        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_X.getNumber());
+        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_X.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.ROTATION_SENSITIVITY);
     }

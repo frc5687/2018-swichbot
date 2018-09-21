@@ -4,9 +4,9 @@ public class Constants {
     public static final int CYCLES_PER_SECOND = 50;
 
     public static class DriveTrain {
-        public static final double DEADBAND = 0.01;
-        public static final double SENSITIVITY = 0.3;
-        public static final double ROTATION_SENSITIVITY = 0.3;
+        public static final double DEADBAND = 0.2;
+        public static final double SENSITIVITY = 0.8 ;
+        public static final double ROTATION_SENSITIVITY = 0.8;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
@@ -18,7 +18,7 @@ public class Constants {
         public static final long STOP_MOTOR_TIME = 60;
         public static final long SHIFT_TIME = 60;
 
-        public static final double SHIFT_UP_THRESHOLD = 50; // in inches per second TODO tune
+        public static final double SHIFT_UP_THRESHOLD = 50; // in inches per second graTODO tune
         public static final double SHIFT_DOWN_THRESHOLD = 40; // in inches per second TODO tune
 
         public static final long AUTO_WAIT_PERIOD = 500;
@@ -124,7 +124,7 @@ public class Constants {
             }
 
             public class MaxAcceleration {
-                public static final double METERS = 2.0; // Meters Per Second Squared
+                public static final double METERS = 1.5; // Meters Per Second Squared
                 public static final double INCHES = 80.0;
             }
 
