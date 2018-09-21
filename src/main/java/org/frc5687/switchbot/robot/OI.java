@@ -3,6 +3,7 @@ package org.frc5687.switchbot.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.commands.*;
 import org.frc5687.switchbot.robot.subsystems.DriveTrain;
 import org.frc5687.switchbot.robot.subsystems.Shifter;
@@ -42,6 +43,7 @@ public class OI {
     private Button _driverBButton;
     private Button _driverAButton;
 
+    private Shifter.Gear _gear = Shifter.Gear.LOW;
 
     public OI() {
         _driverGamepad = new Gamepad(0);
@@ -90,8 +92,8 @@ public class OI {
 
         _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
 
-        _operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
-        _operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
+        // _operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
+        // _operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
 
         _operatorYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
         _operatorXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
@@ -108,12 +110,12 @@ public class OI {
     public double getDriveSpeed() {
         double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_Y.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
-        return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+        return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY_LOW_GEAR);
 
     }
 
     public double getDriveRotation() {
-        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_X.getNumber());
+        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_X.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.ROTATION_SENSITIVITY);
     }
@@ -121,14 +123,22 @@ public class OI {
     public double getLeftSpeed() {
         double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_Y.getNumber());
         speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
-        return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+        SmartDashboard.putNumber("DriveTrain/LeftRaw", speed);
+        double sensitivity = _gear == Shifter.Gear.LOW ? Constants.DriveTrain.SENSITIVITY_LOW_GEAR : Constants.DriveTrain.SENSITIVITY_HIGH_GEAR;
+        speed = Helpers.applySensitivityFactor(speed, sensitivity);
+        SmartDashboard.putNumber("DriveTrain/LeftScaled", speed);
+        return speed;
     }
 
 
     public double getRightSpeed() {
         double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_Y.getNumber());
         speed = Helpers.applyDeadband(speed, Constants.DriveTrain.DEADBAND);
-        return Helpers.applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY);
+        SmartDashboard.putNumber("DriveTrain/RightRaw", speed);
+        double sensitivity = _gear == Shifter.Gear.LOW ? Constants.DriveTrain.SENSITIVITY_LOW_GEAR : Constants.DriveTrain.SENSITIVITY_HIGH_GEAR;
+        speed = Helpers.applySensitivityFactor(speed, sensitivity);
+        SmartDashboard.putNumber("DriveTrain/RightScaled", speed);
+        return speed;
     }
 
 

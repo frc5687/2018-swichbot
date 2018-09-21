@@ -390,12 +390,13 @@ public class DriveTrain extends Subsystem  implements PIDSource {
     }
 
     public void updateDashboard() {
-        SmartDashboard.putNumber("Drivetrain/LeftDistance", getLeftDistance());
-        SmartDashboard.putNumber("Drivetrain/RIghtDistance", getRightDistance());
-        SmartDashboard.putNumber("Drivetrain/LeftRate", getLeftRate());
-        SmartDashboard.putNumber("Drivetrain/RightRate", getRightRate());
-        SmartDashboard.putNumber("Drivetrain/LeftSpeed", getLeftSpeed());
-        SmartDashboard.putNumber("Drivetrain/RightSpeed", getRightSpeed());
+        SmartDashboard.putNumber("DriveTrain/LeftDistance", getLeftDistance());
+        SmartDashboard.putNumber("DriveTrain/RIghtDistance", getRightDistance());
+        SmartDashboard.putNumber("DriveTrain/LeftRate", getLeftRate());
+        SmartDashboard.putNumber("DriveTrain/RightRate", getRightRate());
+        SmartDashboard.putNumber("DriveTrain/LeftSpeed", getLeftSpeed());
+        SmartDashboard.putNumber("DriveTrain/RightSpeed", getRightSpeed());
+        SmartDashboard.putNumber("DriveTrain/Yaw", _imu.getYaw());
     }
 
 }

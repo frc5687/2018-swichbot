@@ -28,6 +28,8 @@ public class AutoAlign extends Command implements PIDOutput {
     private DriveTrain driveTrain;
     private AHRS imu;
 
+    private String _message = "";
+
     private DriveTrainBehavior _driveTrainBehavior = DriveTrainBehavior.bothSides;
 
     private double _tolerance;
@@ -45,22 +47,26 @@ public class AutoAlign extends Command implements PIDOutput {
     }
 
     public AutoAlign(DriveTrain driveTrain, AHRS imu, double angle, double speed, long timeout) {
-        this(driveTrain, imu, angle, speed, timeout, Constants.Auto.Align.TOLERANCE);
+        this(driveTrain, imu, angle, speed, timeout, Constants.Auto.Align.TOLERANCE, "");
     }
 
     public AutoAlign(Robot robot, double angle, long timeout, double tolerance) {
-        this(robot.getDriveTrain(), robot.getIMU(), angle, Constants.Auto.Align.SPEED, timeout, tolerance);
+        this(robot.getDriveTrain(), robot.getIMU(), angle, Constants.Auto.Align.SPEED, timeout, tolerance, "");
     }
 
     public AutoAlign(Robot robot, double angle, double speed, long timeout, double tolerance) {
-        this(robot.getDriveTrain(), robot.getIMU(), angle, speed, timeout, tolerance);
+        this(robot.getDriveTrain(), robot.getIMU(), angle, speed, timeout, tolerance, "");
     }
 
-    public AutoAlign(DriveTrain driveTrain, AHRS imu, double angle, double speed, long timeout, double tolerance) {
-        this(driveTrain, imu, angle, speed, timeout, tolerance, DriveTrainBehavior.bothSides);
+    public AutoAlign(DriveTrain driveTrain, AHRS imu, double angle, double speed, long timeout, double tolerance, String message) {
+        this(driveTrain, imu, angle, speed, timeout, tolerance, DriveTrainBehavior.bothSides, message);
     }
 
-    public AutoAlign(DriveTrain driveTrain, AHRS imu, double angle, double speed, long timeout, double tolerance, DriveTrainBehavior driveTrainBehavior) {
+    public AutoAlign(Robot robot, double angle, double speed, long timeout, double tolerance, DriveTrainBehavior driveTrainBehavior, String message) {
+        this(robot.getDriveTrain(), robot.getIMU(), angle, speed, timeout, tolerance, driveTrainBehavior, message);
+    }
+
+    public AutoAlign(DriveTrain driveTrain, AHRS imu, double angle, double speed, long timeout, double tolerance, DriveTrainBehavior driveTrainBehavior, String message) {
         requires(driveTrain);
         this.angle = angle;
         this.speed = speed;
@@ -69,6 +75,7 @@ public class AutoAlign extends Command implements PIDOutput {
         _timeout = timeout;
         _tolerance = tolerance;
         _driveTrainBehavior = driveTrainBehavior;
+        _message = message;
     }
 
     @Override
@@ -84,7 +91,7 @@ public class AutoAlign extends Command implements PIDOutput {
         controller.setContinuous();
         controller.setSetpoint(angle);
         controller.enable();
-        DriverStation.reportError("AutoAlign initialized to " + angle + " at " + speed, false);
+        DriverStation.reportError("AutoAlign " + _message + " initialized to " + angle + " at " + speed, false);
         DriverStation.reportError("kP="+kP+" , kI="+kI+", kD="+kD + ",T="+ Constants.Auto.Align.TOLERANCE, false);
         startTimeMillis = System.currentTimeMillis();
         _endTimeMillis = startTimeMillis + _timeout;
