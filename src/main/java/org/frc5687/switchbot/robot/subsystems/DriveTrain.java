@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem  implements PIDSource {
     VictorSPX _rightFollowerB;
 
     private Robot _robot;
-    private DriveMode _driveMode = DriveMode.TANK;
+    private DriveMode _driveMode = DriveMode.ARCADE;
     public AHRS _imu;
 
     public DriveTrain(Robot robot) {
