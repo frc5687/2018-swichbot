@@ -4,7 +4,7 @@ plugins {
     id "idea"
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.22"
 }
-s
+
 def TEAM = 9997
 def ROBOT_CLASS = "org.frc5687.switchbot.robot.Robot"
 
