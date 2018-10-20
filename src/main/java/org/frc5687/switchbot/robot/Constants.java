@@ -12,8 +12,8 @@ public class Constants {
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
 
-        public static final boolean LEFT_MOTORS_INVERTED = false;
-        public static final boolean RIGHT_MOTORS_INVERTED = true;
+        public static final boolean LEFT_MOTORS_INVERTED = true;
+        public static final boolean RIGHT_MOTORS_INVERTED = false;
     }
     public class Shifter {
         public static final long STOP_MOTOR_TIME = 60;
@@ -64,8 +64,8 @@ public class Constants {
         public static final int PULSES_PER_ROTATION = 4096; // 1024 in quad mode. talon is 4096.
 
         public class WheelDiameter {
-            public static final double INCHES = 6;
-            public static final double METERS = 0.1524;
+            public static final double INCHES = 4;
+            public static final double METERS = 0.1016;
         }
         public static final double GEAR_RATIO = 3.0;
         public class DistancePerRotation {
