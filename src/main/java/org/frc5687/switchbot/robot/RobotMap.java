@@ -7,12 +7,12 @@ public class RobotMap {
         public static final int RIGHT_MASTER = 0;
         public static final int LEFT_FOLLOWER_A = 3;
         public static final int RIGHT_FOLLOWER_A = 2;
-
     }
 
     public static class PWM {
         public static final int ARM_MOTOR = 1;
-        public static final int INTAKE_MOTOR = 0;
+        public static final int LEFT_INTAKE_MOTOR = 0;
+        public static final int RIGHT_INTAKE_MOTOR = 0;
     }
 
     public static class PCM {

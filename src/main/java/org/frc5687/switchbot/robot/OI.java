@@ -92,8 +92,8 @@ public class OI {
 
         _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
 
-        // _operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
-        // _operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
+        //_operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
+        //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
 
         _operatorYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
         _operatorXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
