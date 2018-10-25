@@ -93,7 +93,7 @@ public class OI {
         _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
 
         //_operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
-        //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.ARCADE));
+        //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.CHEESY_ARCADE));
 
         _operatorYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
         _operatorXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
@@ -107,15 +107,17 @@ public class OI {
 
     }
 
-    public double getDriveSpeed() {
+    public double getDriveSpeed(DriveTrain.DriveMode driveMode) {
         double speed = -getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_Y.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY_LOW_GEAR);
 
     }
 
-    public double getDriveRotation() {
-        double speed = getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_X.getNumber());
+    public double getDriveRotation(DriveTrain.DriveMode driveMode) {
+        double speed = driveMode == DriveTrain.DriveMode.ARCADE ?
+                getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_X.getNumber())
+                : getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_X.getNumber());
         speed = applyDeadband(speed, Constants.DriveTrain.DEADBAND);
         return applySensitivityFactor(speed, Constants.DriveTrain.ROTATION_SENSITIVITY);
     }

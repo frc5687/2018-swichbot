@@ -16,7 +16,6 @@ import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.RobotMap;
 import org.frc5687.switchbot.robot.commands.AllDrive;
-import org.frc5687.switchbot.robot.commands.ArcadeDrive;
 import org.frc5687.switchbot.robot.commands.TankDrive;
 import sun.util.resources.cldr.or.CalendarData_or_IN;
 
@@ -35,7 +34,7 @@ public class DriveTrain extends Subsystem  implements PIDSource {
     VictorSPX _rightFollowerA;
 
     private Robot _robot;
-    private DriveMode _driveMode = DriveMode.TANK;
+    private DriveMode _driveMode = DriveMode.CHEESY_ARCADE;
     public AHRS _imu;
 
     public DriveTrain(Robot robot) {
@@ -354,7 +353,7 @@ public class DriveTrain extends Subsystem  implements PIDSource {
     public enum DriveMode {
         TANK(0),
         ARCADE(1),
-        ARC(2);
+        CHEESY_ARCADE(2);
 
         private int _value;
 
