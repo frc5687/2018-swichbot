@@ -1,7 +1,7 @@
 package org.frc5687.switchbot.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
@@ -15,14 +15,16 @@ public class Pincer extends Subsystem {
     private Robot _robot;
     private DoubleSolenoid _leftSolenoid;
     private DoubleSolenoid _rightSolenoid;
-    private VictorSP _intakeMotor;
+    private VictorSPX _leftintakeMotor;
+    private VictorSPX _rightintakeMotor;
     private IntakeState _intakeState = IntakeState.HOLD;
 
     public Pincer(Robot robot) {
         _robot = robot;
         _leftSolenoid = new DoubleSolenoid(RobotMap.PCM.LEFT_PINCER_OPEN, RobotMap.PCM.LEFT_PINCER_CLOSE);
         _rightSolenoid = new DoubleSolenoid(RobotMap.PCM.RIGHT_PINCER_OPEN, RobotMap.PCM.RIGHT_PINCER_CLOSE);
-        _intakeMotor = new VictorSP(RobotMap.PWM.INTAKE_MOTOR);
+        _leftintakeMotor = new VictorSPX(RobotMap.PWM.LEFT_INTAKE_MOTOR);
+        _rightintakeMotor = new VictorSPX(RobotMap.PWM.RIGHT_INTAKE_MOTOR);
     }
 
 
@@ -53,7 +55,8 @@ public class Pincer extends Subsystem {
     }
 
     public void runIntake(double speed) {
-        _intakeMotor.set(-speed);
+        _leftintakeMotor.set(-speed);
+        _rightintakeMotor.set(-speed);
     }
 
 
