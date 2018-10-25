@@ -1,7 +1,8 @@
 package org.frc5687.switchbot.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
@@ -55,8 +56,8 @@ public class Pincer extends Subsystem {
     }
 
     public void runIntake(double speed) {
-        _leftintakeMotor.set(-speed);
-        _rightintakeMotor.set(-speed);
+        _leftintakeMotor.set(ControlMode.PercentOutput, -speed);
+        _rightintakeMotor.set(ControlMode.PercentOutput, -speed);
     }
 
 
