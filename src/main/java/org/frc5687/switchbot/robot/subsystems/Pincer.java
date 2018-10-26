@@ -16,16 +16,16 @@ public class Pincer extends Subsystem {
     private Robot _robot;
     private DoubleSolenoid _leftSolenoid;
     private DoubleSolenoid _rightSolenoid;
-    private VictorSPX _leftintakeMotor;
-    private VictorSPX _rightintakeMotor;
+    private VictorSPX _leftIntakeMotor;
+    private VictorSPX _rightIntakeMotor;
     private IntakeState _intakeState = IntakeState.HOLD;
 
     public Pincer(Robot robot) {
         _robot = robot;
         _leftSolenoid = new DoubleSolenoid(RobotMap.PCM.LEFT_PINCER_OPEN, RobotMap.PCM.LEFT_PINCER_CLOSE);
         _rightSolenoid = new DoubleSolenoid(RobotMap.PCM.RIGHT_PINCER_OPEN, RobotMap.PCM.RIGHT_PINCER_CLOSE);
-        _leftintakeMotor = new VictorSPX(RobotMap.PWM.LEFT_INTAKE_MOTOR);
-        _rightintakeMotor = new VictorSPX(RobotMap.PWM.RIGHT_INTAKE_MOTOR);
+        _leftIntakeMotor = new VictorSPX(RobotMap.PWM.LEFT_INTAKE_MOTOR);
+        _rightIntakeMotor = new VictorSPX(RobotMap.PWM.RIGHT_INTAKE_MOTOR);
     }
 
 
@@ -56,8 +56,8 @@ public class Pincer extends Subsystem {
     }
 
     public void runIntake(double speed) {
-        _leftintakeMotor.set(ControlMode.PercentOutput, -speed);
-        _rightintakeMotor.set(ControlMode.PercentOutput, -speed);
+        _leftIntakeMotor.set(ControlMode.PercentOutput, -speed);
+        _rightIntakeMotor.set(ControlMode.PercentOutput, -speed);
     }
 
 
@@ -87,5 +87,4 @@ public class Pincer extends Subsystem {
         }
 
     }
-
 }
