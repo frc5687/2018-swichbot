@@ -15,6 +15,7 @@ public class Constants {
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
     }
+
     public class Shifter {
         public static final long STOP_MOTOR_TIME = 60;
         public static final long SHIFT_TIME = 60;
@@ -47,6 +48,12 @@ public class Constants {
     }
 
     public static class Intake {
+        public static final double HIGH_POW = 1.0;
+        public static final double LOW_POW = -HIGH_POW;
+
+        public static final boolean LEFT_MOTORS_INVERTED = true;
+        public static final boolean RIGHT_MOTORS_INVERTED = false;
+
         public static final double HOLD_SPEED = -0.2;
         public static final double INTAKE_SPEED = -0.75;
         public static final double EJECT_SPEED = 1.0;

@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.kauailabs.navx.IMUProtocol;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -40,11 +39,11 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         _imu = robot.getIMU();
 
         // Motor Initialization
-        _leftMaster = new TalonSRX(RobotMap.CAN.LEFT_MASTER);
-        _leftFollowerA = new VictorSPX(RobotMap.CAN.LEFT_FOLLOWER_A);
+        _leftMaster = new TalonSRX(RobotMap.CAN.LEFT_MASTER_TALON);
+        _leftFollowerA = new VictorSPX(RobotMap.CAN.LEFT_FOLLOWER_VICTORSPX);
 
-        _rightMaster = new TalonSRX(RobotMap.CAN.RIGHT_MASTER);
-        _rightFollowerA = new VictorSPX(RobotMap.CAN.RIGHT_FOLLOWER_A);
+        _rightMaster = new TalonSRX(RobotMap.CAN.RIGHT_MASTER_TALON);
+        _rightFollowerA = new VictorSPX(RobotMap.CAN.RIGHT_FOLLOWER_VICTORSPX);
         
         // Setup followers to follow their master
         _leftFollowerA.follow(_leftMaster);

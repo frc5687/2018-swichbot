@@ -3,16 +3,17 @@ package org.frc5687.switchbot.robot;
 public class RobotMap {
 
     public static class CAN {
-        public static final int LEFT_MASTER = 1;
-        public static final int RIGHT_MASTER = 0;
-        public static final int LEFT_FOLLOWER_A = 3;
-        public static final int RIGHT_FOLLOWER_A = 2;
+        public static final int LEFT_MASTER_TALON = 1;
+        public static final int RIGHT_MASTER_TALON = 0;
+        public static final int LEFT_FOLLOWER_VICTORSPX = 3;
+        public static final int RIGHT_FOLLOWER_VICTORSPX = 2;
+        public static final int LEFT_INTAKE_VICTORSPX = 0;
+        public static final int RIGHT_INTAKE_VICTORSPX = 1;
+
     }
 
     public static class PWM {
-        public static final int ARM_MOTOR = 1;
-        public static final int LEFT_INTAKE_MOTOR = 0;
-        public static final int RIGHT_INTAKE_MOTOR = 0;
+        public static final int ARM_VICTORSP = 1;
     }
 
     public static class PCM {
@@ -25,12 +26,11 @@ public class RobotMap {
     }
 
     public static class PDP {
-        public static final int ARM_VICTOR = 3;
-        public static final int INTAKE_VICTOR = 14;
+        public static final int ARM_VICTORSP = 3;
     }
 
     public static class Analog {
-        public static final int POTENTIOMETER = 0;
-        public static final int POSITION_SELECTOR = 1;
+        public static final int ARM_POTENTIOMETER = 0;
+        public static final int AUTO_SELECTOR = 1;
     }
 }

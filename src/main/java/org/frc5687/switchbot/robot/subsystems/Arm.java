@@ -3,7 +3,6 @@ package org.frc5687.switchbot.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
@@ -37,9 +36,9 @@ public class Arm extends PIDSubsystem {
         super("Arm", kP, kI, kD, kF, 0.02);
         this.setOutputRange(-Constants.Arm.SPEED_MAX, Constants.Arm.SPEED_MAX);
         _robot = robot;
-        _motor = new VictorSP(RobotMap.PWM.ARM_MOTOR);
+        _motor = new VictorSP(RobotMap.PWM.ARM_VICTORSP);
         _pdp = robot.getPDP();
-        _pot = new AnglePotentiometer(RobotMap.Analog.POTENTIOMETER, Constants.Arm.ANGLE_MIN, Constants.Arm.POT_MIN, Constants.Arm.ANGLE_MAX,  Constants.Arm.POT_MAX);
+        _pot = new AnglePotentiometer(RobotMap.Analog.ARM_POTENTIOMETER, Constants.Arm.ANGLE_MIN, Constants.Arm.POT_MIN, Constants.Arm.ANGLE_MAX,  Constants.Arm.POT_MAX);
     }
 
 
@@ -47,9 +46,9 @@ public class Arm extends PIDSubsystem {
         _direction = (int)Math.copySign(1, speed);
 
         // See if we are drawing too much power...
-        if (_pdp.getCurrent(RobotMap.PDP.ARM_VICTOR) > Constants.Arm.CURRENT_CAP) {
+        if (_pdp.getCurrent(RobotMap.PDP.ARM_VICTORSP) > Constants.Arm.CURRENT_CAP) {
             // If this is the start of an excess draw condition, record it
-            DriverStation.reportError("Arm cap of " + Constants.Arm.CURRENT_CAP + " exceeded at " + _pdp.getCurrent(RobotMap.PDP.ARM_VICTOR), false);
+            DriverStation.reportError("Arm cap of " + Constants.Arm.CURRENT_CAP + " exceeded at " + _pdp.getCurrent(RobotMap.PDP.ARM_VICTORSP), false);
             if (_capTimeout==0) {
                 _capTimeout = System.currentTimeMillis() + Constants.Arm.TIMEOUT_CAP;
                 _capDirection = _direction;

@@ -27,7 +27,7 @@ public class AutoChooser {
         positionLabels.put(5, "Near Right");
         positionLabels.put(6, "Far Right");
 
-        positionSwitch = new RotarySwitch(RobotMap.Analog.POSITION_SELECTOR, Constants.RotarySwitch.TOLERANCE, 0.07692, 0.15384, 0.23076, 0.30768, 0.3846, 0.46152, 0.53844, 0.61536, 0.69228, 0.7692, 0.84612, 0.92304);
+        positionSwitch = new RotarySwitch(RobotMap.Analog.AUTO_SELECTOR, Constants.RotarySwitch.TOLERANCE, 0.07692, 0.15384, 0.23076, 0.30768, 0.3846, 0.46152, 0.53844, 0.61536, 0.69228, 0.7692, 0.84612, 0.92304);
     }
 
 
