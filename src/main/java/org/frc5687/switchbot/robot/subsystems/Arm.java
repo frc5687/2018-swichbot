@@ -29,7 +29,7 @@ public class Arm extends PIDSubsystem {
 
     public static final double kP = 0.03;
     public static final double kI = 0.0001;
-    public static final double kD = .01;
+    public static final double kD = 0.01;
     public static final double kF = 0;
 
     public Arm(Robot robot) {

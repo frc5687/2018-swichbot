@@ -4,10 +4,10 @@ public class Constants {
     public static final int CYCLES_PER_SECOND = 50;
 
     public static class DriveTrain {
-        public static final double DEADBAND = 0.01;
-        public static final double SENSITIVITY_LOW_GEAR = 0.1;
-        public static final double SENSITIVITY_HIGH_GEAR = 0.3;
-        public static final double ROTATION_SENSITIVITY = 0.3;
+        public static final double DEADBAND = 0.2;
+        public static final double SENSITIVITY_LOW_GEAR = 1.0;
+        public static final double SENSITIVITY_HIGH_GEAR = 1.0;
+        public static final double ROTATION_SENSITIVITY = 1.0;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
@@ -30,8 +30,8 @@ public class Constants {
     public static class Arm {
         public static final double CURRENT_CAP = 40;
         public static final long TIMEOUT_CAP = 100;
-        public static final double DEADBAND = 0.1;
-        public static final double SENSITIVITY = 0.75;
+        public static final double DEADBAND = 0.2;
+        public static final double SENSITIVITY = 0.9;
 
         public static final double FRONT_FLAT = 110.0;
         public static final double FRONT_SWITCH = 30.0;
@@ -39,12 +39,12 @@ public class Constants {
         public static final double BACK_SWITCH = -30.0;
         public static final double BACK_FLAT = -100.0;
 
-        public static final double ANGLE_MIN = -110;
-        public static final double ANGLE_MAX = 110;
-        public static final double POT_MIN = 0.065;
-        public static final double POT_MAX = 0.695;
+        public static final double ANGLE_MIN = -100;
+        public static final double ANGLE_MAX = 100;
+        public static final double POT_MIN = 0.970;
+        public static final double POT_MAX = 0.534;
 
-        public static final double SPEED_MAX = 1.0;
+        public static final double SPEED_MAX = 0.8;
     }
 
     public static class Intake {
@@ -56,7 +56,7 @@ public class Constants {
 
         public static final double HOLD_SPEED = -0.2;
         public static final double INTAKE_SPEED = -0.75;
-        public static final double EJECT_SPEED = 1.0;
+        public static final double EJECT_SPEED = 0.5;
         public static final long EJECT_TIME_MILLIS = 500;
     }
 
@@ -71,10 +71,10 @@ public class Constants {
         public static final int PULSES_PER_ROTATION = 4096; // 1024 in quad mode. talon is 4096.
 
         public class WheelDiameter {
-            public static final double INCHES = 4;
-            public static final double METERS = 0.1016;
+            public static final double INCHES = 3.8;
+            public static final double METERS = 0.09652;
         }
-        public static final double GEAR_RATIO = 3.0;
+        public static final double GEAR_RATIO = 2.25;
         public class DistancePerRotation {
             public static final double INCHES = Math.PI * WheelDiameter.INCHES * GEAR_RATIO;
             public static final double METERS = Math.PI * WheelDiameter.METERS;
@@ -88,8 +88,8 @@ public class Constants {
         public static final double MAX_PERIOD = 5;
 
         public class Track {
-            public static final double INCHES = 24;
-            public static final double METERS = 0.6096;
+            public static final double INCHES = 25.75;
+            public static final double METERS = 0.65405;
         }
 
         public static final double INCHES_PER_PULSE = DistancePerPulse.INCHES;
@@ -132,7 +132,7 @@ public class Constants {
             }
 
             public class MaxAcceleration {
-                public static final double METERS = 1.5; // Meters Per Second Squared
+                public static final double METERS = 2; // Meters Per Second Squared
                 public static final double INCHES = 80.0;
             }
 
