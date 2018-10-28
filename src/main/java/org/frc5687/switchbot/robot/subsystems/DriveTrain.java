@@ -159,6 +159,37 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         setPower(leftMotorOutput, rightMotorOutput);
     }
 
+    public void cheesyDrive(double speed, double rotation) {
+        SmartDashboard.putNumber("DriveTrain/Speed", speed);
+        SmartDashboard.putNumber("DriveTrain/Rotation", rotation);
+
+        speed = limit(speed);
+
+        rotation = limit(rotation);
+
+        // Square the inputs (while preserving the sign) to increase fine control
+        // while permitting full power.
+        speed = Math.copySign(speed * speed, speed);
+        rotation = Math.copySign(rotation * rotation, rotation);
+
+        double leftMotorOutput;
+        double rightMotorOutput;
+
+        double maxInput = Math.copySign(Math.max(Math.abs(speed), Math.abs(rotation)), speed);
+
+        if (speed==0.0) {
+            leftMotorOutput = rotation;
+            rightMotorOutput = -rotation;
+        } else {
+            double delta = rotation * Math.abs(speed);
+            leftMotorOutput = speed + delta;
+            rightMotorOutput = speed - delta;
+        }
+
+        setPower(limit(leftMotorOutput), limit(rightMotorOutput));
+    }
+
+
     public void tankDrive(double leftSpeed, double rightSpeed, boolean overrideCaps) {
         SmartDashboard.putNumber("DriveTrain/LeftSpeed", leftSpeed);
         SmartDashboard.putNumber("DriveTrain/RightSpeed", rightSpeed);

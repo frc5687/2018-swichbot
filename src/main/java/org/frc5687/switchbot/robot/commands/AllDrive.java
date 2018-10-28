@@ -29,7 +29,6 @@ public class AllDrive extends Command {
         DriveTrain.DriveMode driveMode = _driveTrain.getDriveMode();
         switch (driveMode) {
             case ARCADE:
-            case CHEESY_ARCADE:
                 // Get the base speed from the throttle
                 double speed = _oi.getDriveSpeed(driveMode);
 
@@ -37,6 +36,17 @@ public class AllDrive extends Command {
                 double rotation = _oi.getDriveRotation(driveMode);
 
                 _driveTrain.arcadeDrive(speed, rotation);
+                break;
+            case CHEESY_ARCADE:
+                // Get the base speed from the throttle
+                // Get the base speed from the throttle
+                double stickSpeed = _oi.getDriveSpeed(driveMode);
+
+                // Get the rotation from the tiller
+                double wheelRotation = _oi.getDriveRotation(driveMode);
+
+                _driveTrain.cheesyDrive(stickSpeed, wheelRotation);
+
                 break;
 
             case TANK:

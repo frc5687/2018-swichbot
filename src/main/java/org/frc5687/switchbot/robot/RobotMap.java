@@ -13,7 +13,7 @@ public class RobotMap {
     }
 
     public static class PWM {
-        public static final int ARM_VICTORSP = 1;
+        public static final int ARM_VICTORSP = 0;
     }
 
     public static class PCM {
@@ -26,7 +26,7 @@ public class RobotMap {
     }
 
     public static class PDP {
-        public static final int ARM_VICTORSP = 3;
+        public static final int ARM_VICTORSP = 0;
     }
 
     public static class Analog {
