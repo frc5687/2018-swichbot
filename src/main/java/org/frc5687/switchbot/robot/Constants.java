@@ -33,18 +33,19 @@ public class Constants {
         public static final double DEADBAND = 0.2;
         public static final double SENSITIVITY = 0.9;
 
-        public static final double FRONT_FLAT = 110.0;
+        public static final double FRONT_FLAT = 90.0;
         public static final double FRONT_SWITCH = 30.0;
         public static final double UP = 0;
         public static final double BACK_SWITCH = -30.0;
-        public static final double BACK_FLAT = -100.0;
+        public static final double BACK_FLAT = -90.0;
 
-        public static final double ANGLE_MIN = -100;
-        public static final double ANGLE_MAX = 100;
-        public static final double POT_MIN = 0.970;
-        public static final double POT_MAX = 0.534;
+        public static final double ANGLE_MIN = -95;
+        public static final double ANGLE_MAX = 97;
+        public static final double POT_MIN = 0.949;
+        public static final double POT_MAX = 0.458;
 
         public static final double SPEED_MAX = 0.8;
+        public static final boolean MOTOR_INVERTED = false;
     }
 
     public static class Intake {
@@ -76,7 +77,8 @@ public class Constants {
         }
         public static final double GEAR_RATIO = 2.25;
         public class DistancePerRotation {
-            public static final double INCHES = Math.PI * WheelDiameter.INCHES * GEAR_RATIO;
+            public static final double INVERTED = -1;
+            public static final double INCHES = Math.PI * WheelDiameter.INCHES * GEAR_RATIO * 1.032258 * INVERTED;
             public static final double METERS = Math.PI * WheelDiameter.METERS;
         }
 

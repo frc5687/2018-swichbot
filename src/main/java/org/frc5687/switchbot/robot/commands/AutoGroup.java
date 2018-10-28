@@ -81,8 +81,9 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 12, 0.6, true, true, 1000, "Attack1"));
         addSequential(new AutoAlign(robot, -22, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 116, 1.0, true, true, 3000, "Attack2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 126, 1.0, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
+        addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "center"));
 
         addSequential(new Eject(robot.getPincer()));
 /*

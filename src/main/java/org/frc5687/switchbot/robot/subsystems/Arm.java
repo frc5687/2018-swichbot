@@ -80,7 +80,7 @@ public class Arm extends PIDSubsystem {
             speed = 0;
         }
 
-        _motor.set(-speed);
+        _motor.set((Constants.Arm.MOTOR_INVERTED ? -1 : 1) * speed);
     }
 
     public double getPot() { return _pot.get(); }
