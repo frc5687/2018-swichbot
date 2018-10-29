@@ -33,4 +33,10 @@ public class RobotMap {
         public static final int ARM_POTENTIOMETER = 0;
         public static final int AUTO_SELECTOR = 1;
     }
+
+    public static class DIO {
+        public static final int ARM_FRONT_LIMIT = 0;
+        public static final int ARM_REAR_LIMIT = 1;
+    }
+
 }

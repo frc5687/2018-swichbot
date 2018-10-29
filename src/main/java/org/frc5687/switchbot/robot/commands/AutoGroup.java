@@ -83,15 +83,15 @@ public class AutoGroup extends CommandGroup {
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 126, 1.0, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
-        addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "center"));
+        addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
 
         addSequential(new Eject(robot.getPincer()));
-/*
+
         // Retreat to centerline of cube zone
-        addSequential(new AutoAlign(robot, -30, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.leftOnly));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -96, .75, true, true, 5000, "Retreat1"));
+        addSequential(new AutoAlign(robot, -30, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.leftOnly, "realign 2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -96, .75, true, true, 5000, "Retreat 2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_FLAT));
-        addSequential(new AutoAlign(robot, 0.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides));
+        addSequential(new AutoAlign(robot, 0.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "target 1"));
 
         // Approach the center cube
         addParallel(new OpenPincer(robot.getPincer()));
@@ -104,17 +104,17 @@ public class AutoGroup extends CommandGroup {
 
         // Turn and attack with second cube
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoAlign(robot, -30, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides));
+        addSequential(new AutoAlign(robot, -30, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 3"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 96, .75, true, true, 5000, "Attack2"));
         addSequential(new Eject(robot.getPincer()));
 
         // Align and retreat to oblique angle for 3d cube
-        addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides));
+        addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -56, .75, true, true, 5000, "Retreat2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_FLAT));
 
         // Align to 3rd cube and approach
-        addSequential(new AutoAlign(robot, 45.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides));
+        addSequential(new AutoAlign(robot, 45.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
         addParallel(new IntakeOnly(robot.getPincer()));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 48, .75, true, true, 5000, "Approach2"));
 
@@ -125,12 +125,12 @@ public class AutoGroup extends CommandGroup {
         // Retrieve and align
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -48, .75, true, true, 5000, "Retrieve2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides));
+        addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
 
         // Attack with 3rd cube
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 56, .75, true, true, 5000, "Attack3"));
         addSequential(new Eject(robot.getPincer()));
-*/
+
         return;
     }
 

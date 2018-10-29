@@ -1,5 +1,6 @@
 package org.frc5687.switchbot.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -19,6 +20,10 @@ public class Arm extends PIDSubsystem {
     private VictorSP _motor;
     private PDP _pdp;
     private AnglePotentiometer _pot;
+    private DigitalInput _frontLimit;
+    private DigitalInput _rearLimit;
+
+
 
     private int _direction = 0;
     private boolean _atFrontLimit = false;
@@ -39,6 +44,8 @@ public class Arm extends PIDSubsystem {
         _motor = new VictorSP(RobotMap.PWM.ARM_VICTORSP);
         _pdp = robot.getPDP();
         _pot = new AnglePotentiometer(RobotMap.Analog.ARM_POTENTIOMETER, Constants.Arm.ANGLE_MIN, Constants.Arm.POT_MIN, Constants.Arm.ANGLE_MAX,  Constants.Arm.POT_MAX);
+        _frontLimit = new DigitalInput(RobotMap.DIO.ARM_FRONT_LIMIT);
+        _rearLimit = new DigitalInput(RobotMap.DIO.ARM_REAR_LIMIT);
     }
 
 
@@ -90,11 +97,11 @@ public class Arm extends PIDSubsystem {
     }
 
     public boolean atFrontLimit() {
-        return /*_atFrontLimit || */ getAngle() > 115;
+        return /*_atFrontLimit || */  _frontLimit.get() ||  getAngle() >= Constants.Arm.ANGLE_MAX;
     }
 
     public boolean atRearLimit() {
-        return /*_atRearLimit || */ getAngle() < -115;
+        return /*_atRearLimit || */ _rearLimit.get() ||  getAngle() <= Constants.Arm.ANGLE_MIN;
     }
 
     @Override
@@ -116,5 +123,7 @@ public class Arm extends PIDSubsystem {
     public void updateDashboard() {
         SmartDashboard.putNumber("Arm/angleRaw", _pot.getRaw());
         SmartDashboard.putNumber("Arm/angle", _pot.get());
+        SmartDashboard.putBoolean("Arm/FrontLimitSwitch", _frontLimit.get());
+        SmartDashboard.putBoolean("Arm/RearLimitSwitch", _rearLimit.get());
     }
 }
