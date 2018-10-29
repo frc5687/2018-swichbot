@@ -39,9 +39,9 @@ public class AutoDrive extends Command {
     private double kDdistance = 0.0; //.1;
     private double kTdistance = 0.5;
 
-    private double kPangle = .01;
-    private double kIangle = .001;
-    private double kDangle = .00;
+    private double kPangle = .001;
+    private double kIangle = .0001;
+    private double kDangle = .001;
     private double kTangle;
 
 
