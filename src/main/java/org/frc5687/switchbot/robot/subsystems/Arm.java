@@ -88,6 +88,14 @@ public class Arm extends PIDSubsystem {
         }
 
         _motor.set((Constants.Arm.MOTOR_INVERTED ? -1 : 1) * speed);
+        if (!_frontLimit.get()) {
+            _pot.restTop();
+            SmartDashboard.putNumber("Arm/TopPot",_pot.getRaw());
+        }
+        if (!_rearLimit.get()) {
+            _pot.restBottem();
+            SmartDashboard.putNumber("Arm/BottomPot",_pot.getRaw());
+        }
     }
 
     public double getPot() { return _pot.get(); }
@@ -103,6 +111,7 @@ public class Arm extends PIDSubsystem {
     public boolean atRearLimit() {
         return /*_atRearLimit || */ !_rearLimit.get() ||  getAngle() <= Constants.Arm.ANGLE_MIN;
     }
+
 
     @Override
     protected double returnPIDInput() {
