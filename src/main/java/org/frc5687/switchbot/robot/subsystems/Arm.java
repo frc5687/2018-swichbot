@@ -97,11 +97,11 @@ public class Arm extends PIDSubsystem {
     }
 
     public boolean atFrontLimit() {
-        return /*_atFrontLimit || */  _frontLimit.get() ||  getAngle() >= Constants.Arm.ANGLE_MAX;
+        return /*_atFrontLimit || */  !_frontLimit.get() ||  getAngle() >= Constants.Arm.ANGLE_MAX;
     }
 
     public boolean atRearLimit() {
-        return /*_atRearLimit || */ _rearLimit.get() ||  getAngle() <= Constants.Arm.ANGLE_MIN;
+        return /*_atRearLimit || */ !_rearLimit.get() ||  getAngle() <= Constants.Arm.ANGLE_MIN;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class Arm extends PIDSubsystem {
     public void updateDashboard() {
         SmartDashboard.putNumber("Arm/angleRaw", _pot.getRaw());
         SmartDashboard.putNumber("Arm/angle", _pot.get());
-        SmartDashboard.putBoolean("Arm/FrontLimitSwitch", _frontLimit.get());
-        SmartDashboard.putBoolean("Arm/RearLimitSwitch", _rearLimit.get());
+        SmartDashboard.putBoolean("Arm/FrontLimitSwitch", !_frontLimit.get());
+        SmartDashboard.putBoolean("Arm/RearLimitSwitch", !_rearLimit.get());
     }
 }
