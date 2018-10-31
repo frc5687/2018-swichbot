@@ -78,7 +78,7 @@ public class Constants {
         public static final double GEAR_RATIO = 2.25;
         public class DistancePerRotation {
             public static final double INVERTED = -1;
-            public static final double INCHES = Math.PI * WheelDiameter.INCHES * GEAR_RATIO * 1.032258 * INVERTED;
+            public static final double INCHES = Math.PI * WheelDiameter.INCHES * GEAR_RATIO * INVERTED;
             public static final double METERS = Math.PI * WheelDiameter.METERS;
         }
 

@@ -54,6 +54,10 @@ public class AutoGroup extends CommandGroup {
             case Constants.AutoChooser.Position.FAR_RIGHT: // Position 6, left side
                 buildFarRightCube(robot);
                 break;
+            case 7:
+            case -7:
+                addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 72, 1.0, true, true, 10000, "AutoCross"));
+                break;
             case -12: // Position 6, left side
                 this.addSequential(new AutoAlign(robot, -90, 1.0));
                 break;

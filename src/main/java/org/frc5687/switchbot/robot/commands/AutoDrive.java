@@ -34,9 +34,9 @@ public class AutoDrive extends Command {
     private DriveTrain driveTrain;
     private AHRS imu;
 
-    private double kPdistance = 0.005; // .07;
-    private double kIdistance = 0.0000; // .001;
-    private double kDdistance = 0.0; //.1;
+    private double kPdistance = 0.05; // .07;
+    private double kIdistance = 0.001; // .001;
+    private double kDdistance = 0.5; //.1;
     private double kTdistance = 0.5;
 
     private double kPangle = .001;
