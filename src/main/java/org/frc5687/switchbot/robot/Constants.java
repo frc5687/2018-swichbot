@@ -72,8 +72,8 @@ public class Constants {
         public static final int PULSES_PER_ROTATION = 4096; // 1024 in quad mode. talon is 4096.
 
         public class WheelDiameter {
-            public static final double INCHES = 3.8;
-            public static final double METERS = 0.09652;
+            public static final double INCHES = 6.125;
+            public static final double METERS = 0.155575;
         }
         public static final double GEAR_RATIO = 2.25;
         public class DistancePerRotation {
