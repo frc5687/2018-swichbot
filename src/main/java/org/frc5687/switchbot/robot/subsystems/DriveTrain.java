@@ -15,6 +15,7 @@ import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.RobotMap;
 import org.frc5687.switchbot.robot.commands.AllDrive;
+import org.frc5687.switchbot.robot.utils.Helpers;
 
 import static org.frc5687.switchbot.robot.utils.Helpers.limit;
 
@@ -164,13 +165,14 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         SmartDashboard.putNumber("DriveTrain/Rotation", rotation);
 
         speed = limit(speed);
+        Shifter.Gear gear = _robot.getShifter().getGear();
 
         rotation = limit(rotation);
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
         speed = Math.copySign(speed * speed, speed);
-        rotation = Math.copySign(rotation * rotation, rotation);
+        rotation = Helpers.applySensitivityFactor(rotation,  gear == Shifter.Gear.HIGH ? Constants.DriveTrain.ROTATION_SENSITIVITY_HIGH_GEAR : Constants.DriveTrain.ROTATION_SENSITIVITY_LOW_GEAR);
 
         double leftMotorOutput;
         double rightMotorOutput;

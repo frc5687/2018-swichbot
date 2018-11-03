@@ -8,14 +8,18 @@ public class Constants {
         public static final double SENSITIVITY_LOW_GEAR = 0.0;
         public static final double SENSITIVITY_HIGH_GEAR = 0.0;
         public static final double ROTATION_SENSITIVITY = 0.0;
+        public static final double ROTATION_SENSITIVITY_HIGH_GEAR = 0.5;
+        public static final double ROTATION_SENSITIVITY_LOW_GEAR = 0;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
 
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
-        public static final double MAX_SPEED_IPS = 192;
-        public static final double CAP_SPEED_IPS = 120;
+        public static final double MAX_SPEED_IPS = 11 * 12;
+        public static final double CAP_SPEED_IPS = .8 * MAX_SPEED_IPS;
+        public static final double MAX_ACCELERATION_IPSS = CAP_SPEED_IPS / 2;
+        public static final double MAX_JERK_IPSSS = CAP_SPEED_IPS;
     }
 
     public class Shifter {
@@ -44,7 +48,7 @@ public class Constants {
         public static final double ANGLE_MIN = -95;
         public static final double ANGLE_MAX = 97;
         public static final double POT_MIN = 0.949;
-        public static final double POT_MAX = 0.458;
+        public static final double POT_MAX = 0.378;
 
         public static final double SPEED_MAX = 0.8;
         public static final boolean MOTOR_INVERTED = false;

@@ -56,7 +56,11 @@ public class AutoGroup extends CommandGroup {
                 break;
             case 7:
             case -7:
-                addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 72, 1.0, true, true, 10000, "AutoCross"));
+                addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 72, 0.6, true, true, 10000, "AutoCross"));
+                break;
+            case 8:
+            case -8:
+                addSequential(new AutoDrivePath(robot.getDriveTrain(), robot.getIMU(), 72, 1.0));
                 break;
             case -12: // Position 6, left side
                 this.addSequential(new AutoAlign(robot, -90, 1.0));
@@ -82,10 +86,10 @@ public class AutoGroup extends CommandGroup {
 
         // First attack - delivering starter cube to left side
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 12, 0.8, true, true, 1000, "Attack1"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 8, 0.4, true, true, 1000, "Attack1"));
         addSequential(new AutoAlign(robot, -22, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 126, 1.0, true, true, 5000, "Attack2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.6, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
         addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
 
@@ -146,7 +150,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 12, 0.6, true, true, 1000, "Attack1"));
         addSequential(new AutoAlign(robot, 22, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "right 22deg"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 116, 1.0, true, true, 3000, "Attack2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 1.0, true, true, 3000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
 
         addSequential(new Eject(robot.getPincer()));

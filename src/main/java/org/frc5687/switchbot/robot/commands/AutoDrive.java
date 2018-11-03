@@ -34,9 +34,9 @@ public class AutoDrive extends Command {
     private DriveTrain driveTrain;
     private AHRS imu;
 
-    private double kPdistance = 0.05; // .07;
-    private double kIdistance = 0.001; // .001;
-    private double kDdistance = 0.5; //.1;
+    private double kPdistance = 0.15; // .05;
+    private double kIdistance = 0.000; // .001;
+    private double kDdistance = 0.3; //.1;
     private double kTdistance = 0.5;
 
     private double kPangle = .001;
@@ -176,6 +176,7 @@ public class AutoDrive extends Command {
     @Override
     protected void end() {
         DriverStation.reportError("AutoDrive Finished (" + driveTrain.getDistance() + ", " + (driveTrain.getYaw() - angleController.getSetpoint()) + ") " + (debug==null?"":debug), false);
+        driveTrain.enableCoastMode();
         angleController.disable();
         if (distanceController!=null) {
             distanceController.disable();
