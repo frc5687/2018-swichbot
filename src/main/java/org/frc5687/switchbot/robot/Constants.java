@@ -4,10 +4,10 @@ public class Constants {
     public static final int CYCLES_PER_SECOND = 50;
 
     public static class DriveTrain {
-        public static final double DEADBAND = 0.2;
-        public static final double SENSITIVITY_LOW_GEAR = 1.0;
-        public static final double SENSITIVITY_HIGH_GEAR = 1.0;
-        public static final double ROTATION_SENSITIVITY = 1.0;
+        public static final double DEADBAND = 0.1;
+        public static final double SENSITIVITY_LOW_GEAR = 0.0;
+        public static final double SENSITIVITY_HIGH_GEAR = 0.0;
+        public static final double ROTATION_SENSITIVITY = 0.0;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
