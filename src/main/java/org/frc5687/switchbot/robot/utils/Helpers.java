@@ -71,7 +71,7 @@ public class Helpers {
         // The sensitivity factor MUST be between 0 and 1!
         double capped = Math.max(Math.min(factor, 1),0);
 
-        return factor*input*input*input + (1-factor)*input;
+        return capped*input*input*input + (1-capped)*input;
     }
 
 }
