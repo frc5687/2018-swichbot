@@ -14,6 +14,8 @@ public class Constants {
 
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
+        public static final double MAX_SPEED_IPS = 192;
+        public static final double CAP_SPEED_IPS = 120;
     }
 
     public class Shifter {
@@ -46,6 +48,8 @@ public class Constants {
 
         public static final double SPEED_MAX = 0.8;
         public static final boolean MOTOR_INVERTED = false;
+        public static final double MAX_SPEED_DPS = 180; // Physical max speed of the arm in degrees per second
+        public static final double CAP_SPEED_DPS = 120;
     }
 
     public static class Intake {
