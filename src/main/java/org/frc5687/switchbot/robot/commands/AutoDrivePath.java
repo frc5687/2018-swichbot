@@ -27,6 +27,7 @@ public class AutoDrivePath extends Command {
     private double kPangle = .001;
     private double kIangle = .0001;
     private double kDangle = .001;
+    private int _index = 0;
 
     public AutoDrivePath(DriveTrain driveTrain, AHRS imu, double distance, double speed) {
 
@@ -37,10 +38,11 @@ public class AutoDrivePath extends Command {
                 new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
                 new Waypoint(distance, 0, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
         };
-        DriverStation.reportError("Generating trajctory from 0,0,0 to " + distance + ",0,0 with dt=" + (1/Constants.CYCLES_PER_SECOND) + ",  ", false);
+        DriverStation.reportError("Generating trajctory from 0,0,0 to " + distance + ",0,0 with dt=" + (1.0/Constants.CYCLES_PER_SECOND) + ",  ", false);
         Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 1.0 / Constants.CYCLES_PER_SECOND, Constants.DriveTrain.CAP_SPEED_IPS, Constants.DriveTrain.MAX_ACCELERATION_IPSS, Constants.DriveTrain.MAX_JERK_IPSSS);
         _trajectory = Pathfinder.generate(points, config);
 
+        DriverStation.reportError("Generated " + _trajectory.length() + " segments.", false);
 /*        for (int i = 0; i < _trajectory.length(); i++) {
             Trajectory.Segment s= _trajectory.get(i);
             DriverStation.reportError("Seg " + i + " x=" + s.x + ", pos=" + s.position + ", vel=" + s.velocity + ", acc="+s.acceleration,false);
@@ -50,8 +52,9 @@ public class AutoDrivePath extends Command {
 
     @Override
     protected void initialize() {
+        _driveTrain.resetDriveEncoders();
         _follower = new DistanceFollower(_trajectory);
-        _follower.configurePIDVA(1.0, 0.0, 0.0, 1 / Constants.DriveTrain.MAX_SPEED_IPS, 0);
+        _follower.configurePIDVA(0.1, 0.0, 0.001, 1 / Constants.DriveTrain.MAX_SPEED_IPS, 0);
 
         _anglePID = new PIDListener();
         _angleController = new PIDController(kPangle, kIangle, kDangle, _imu, _anglePID, 0.05);
@@ -65,16 +68,20 @@ public class AutoDrivePath extends Command {
         // If an angle is supplied, use that as our setpoint.  Otherwise get the current heading and stick to it!
         _angleController.setSetpoint(_driveTrain.getYaw());
         _angleController.enable();
+        _index = 0;
     }
 
     @Override
     protected void execute() {
-        int distance = (int)_driveTrain.getDistance();
-        DriverStation.reportError("Segment target: " + 0 + " actual " + distance, false);
+        double distance = _driveTrain.getDistance();
+        _index++;
+        DriverStation.reportError("Segment " + _index + " target: " + _follower.getSegment().x + " actual " + distance + " vel=" + _follower.getSegment().velocity, false);
         double speed = _follower.calculate(distance);
         double angleFactor = _anglePID.get();
 
-        _driveTrain.setPower(speed + angleFactor, speed - angleFactor, true);
+        DriverStation.reportError("Calculated speed: " + speed + " anglFactor " +angleFactor, false);
+
+        _driveTrain.setPower(speed , speed, true);
     }
 
     @Override

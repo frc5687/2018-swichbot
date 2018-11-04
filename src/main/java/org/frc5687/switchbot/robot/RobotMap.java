@@ -24,8 +24,8 @@ public class RobotMap {
         public static final int SHIFTER_HIGH = 4;
         public static final int SHIFTER_LOW = 0;
         public static final int RED_LED = 6;
-        public static final int GREEN_LED = 7;
-        public static final int BLUE_LED = 8;
+        // public static final int GREEN_LED = 7;
+        public static final int BLUE_LED = 7;
     }
 
     public static class PDP {
