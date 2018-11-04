@@ -115,16 +115,16 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoAlign(robot, -70, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 3"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 60, .6, true, true, 5000, "Attack2"));
         addSequential(new AutoAlign(robot, 50, .40, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 4"));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 10, .6, true, true, 5000, "Attack3"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 6, .6, true, true, 5000, "Attack3"));
         addSequential(new Eject(robot.getPincer()));
 
-/*        // Align and retreat to oblique angle for 3d cube
+        // Align and retreat to oblique angle for 3d cube
         addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -56, .75, true, true, 5000, "Retreat2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -24, .75, true, true, 5000, "Retreat2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_FLAT));
 
         // Align to 3rd cube and approach
-        addSequential(new AutoAlign(robot, 45.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
+        addSequential(new AutoAlign(robot, 45, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
         addParallel(new IntakeOnly(robot.getPincer()));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 48, .75, true, true, 5000, "Approach2"));
 
@@ -132,7 +132,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new ClosePincer(robot.getPincer()));
         addParallel(new HoldPincer(robot.getPincer()));
 
-        // Retrieve and align
+/*        // Retrieve and align
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -48, .75, true, true, 5000, "Retrieve2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
