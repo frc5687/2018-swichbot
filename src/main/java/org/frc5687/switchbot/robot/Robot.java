@@ -118,7 +118,7 @@ public class Robot extends TimedRobot {
         if (gameData.length()>0) {
             switchSide = gameData.charAt(0)=='L' ? Constants.AutoChooser.LEFT : Constants.AutoChooser.RIGHT;
         }
-        int autoPosition = _autoChooser.positionSwitchValue();
+        int autoPosition = 8;//s_autoChooser.positionSwitchValue();
         SmartDashboard.putNumber("Auto/SwitchSide", switchSide);
         SmartDashboard.putNumber("Auto/Position", autoPosition);
         DriverStation.reportError("Running AutoGroup with position: " + autoPosition + ",  switchSide: " + switchSide , false);
@@ -143,6 +143,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        _oi.poll();
         updateDashboard();
     }
 

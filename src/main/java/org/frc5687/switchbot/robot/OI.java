@@ -1,5 +1,6 @@
 package org.frc5687.switchbot.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -44,6 +45,7 @@ public class OI {
     private Button _driverAButton;
 
     private Shifter.Gear _gear = Shifter.Gear.LOW;
+    private long _endRumbleMillis = 0;
 
     public OI() {
         _driverGamepad = new Gamepad(0);
@@ -154,4 +156,23 @@ public class OI {
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
+
+    public void rumbleLeft() {
+        _driverGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, Constants.OI.RUMBLE_INTENSITY);
+        _endRumbleMillis = System.currentTimeMillis() + Constants.OI.RUMBLE_MILLIS;
+    }
+
+    public void rumbleRight() {
+        _driverGamepad.setRumble(GenericHID.RumbleType.kRightRumble, Constants.OI.RUMBLE_INTENSITY);
+        _endRumbleMillis = System.currentTimeMillis() + Constants.OI.RUMBLE_MILLIS;
+    }
+
+    public void poll() {
+        if (_endRumbleMillis>0 && System.currentTimeMillis() > _endRumbleMillis) {
+            _endRumbleMillis = 0;
+            _driverGamepad.setRumble(GenericHID.RumbleType.kLeftRumble, 0);
+            _driverGamepad.setRumble(GenericHID.RumbleType.kRightRumble, 0);
+        }
+    }
+
 }

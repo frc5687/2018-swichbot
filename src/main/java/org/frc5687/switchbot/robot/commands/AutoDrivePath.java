@@ -37,16 +37,21 @@ public class AutoDrivePath extends Command {
                 new Waypoint(0, 0, 0),      // Waypoint @ x=-4, y=-1, exit angle=-45 degrees
                 new Waypoint(distance, 0, 0),                        // Waypoint @ x=-2, y=-2, exit angle=0 radians
         };
+        DriverStation.reportError("Generating trajctory from 0,0,0 to " + distance + ",0,0 with dt=" + (1/Constants.CYCLES_PER_SECOND) + ",  ", false);
+        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 1.0 / Constants.CYCLES_PER_SECOND, Constants.DriveTrain.CAP_SPEED_IPS, Constants.DriveTrain.MAX_ACCELERATION_IPSS, Constants.DriveTrain.MAX_JERK_IPSSS);
+        _trajectory = Pathfinder.generate(points, config);
 
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 1 / Constants.CYCLES_PER_SECOND, Constants.DriveTrain.CAP_SPEED_IPS, Constants.DriveTrain.MAX_ACCELERATION_IPSS, Constants.DriveTrain.MAX_JERK_IPSSS);
-        // _trajectory = Pathfinder.generate(points, config);
-
+/*        for (int i = 0; i < _trajectory.length(); i++) {
+            Trajectory.Segment s= _trajectory.get(i);
+            DriverStation.reportError("Seg " + i + " x=" + s.x + ", pos=" + s.position + ", vel=" + s.velocity + ", acc="+s.acceleration,false);
+        }
+*/
     }
 
     @Override
     protected void initialize() {
-        // _follower = new DistanceFollower(_trajectory);
-        // _follower.configurePIDVA(1.0, 0.0, 0.0, 1 / Constants.DriveTrain.MAX_SPEED_IPS, 0);
+        _follower = new DistanceFollower(_trajectory);
+        _follower.configurePIDVA(1.0, 0.0, 0.0, 1 / Constants.DriveTrain.MAX_SPEED_IPS, 0);
 
         _anglePID = new PIDListener();
         _angleController = new PIDController(kPangle, kIangle, kDangle, _imu, _anglePID, 0.05);
@@ -66,7 +71,7 @@ public class AutoDrivePath extends Command {
     protected void execute() {
         int distance = (int)_driveTrain.getDistance();
         DriverStation.reportError("Segment target: " + 0 + " actual " + distance, false);
-        double speed = 0 ; //_follower.calculate(distance);
+        double speed = _follower.calculate(distance);
         double angleFactor = _anglePID.get();
 
         _driveTrain.setPower(speed + angleFactor, speed - angleFactor, true);
@@ -74,7 +79,7 @@ public class AutoDrivePath extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false; // _follower.isFinished();
+        return _follower.isFinished();
     }
 
 

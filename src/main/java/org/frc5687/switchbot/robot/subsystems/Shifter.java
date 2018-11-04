@@ -3,6 +3,8 @@ package org.frc5687.switchbot.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
@@ -17,9 +19,16 @@ public class Shifter extends Subsystem {
     private long waitPeriodEndTime = 0;
     private boolean autShiftEnabled = false;
 
+    private Solenoid _red;
+    private Solenoid _green;
+    private Solenoid _blue;
+
     public Shifter(Robot robot) {
         _robot = robot;
         shifterSolenoid = new DoubleSolenoid(RobotMap.PCM.SHIFTER_HIGH, RobotMap.PCM.SHIFTER_LOW);
+        _red = new Solenoid(RobotMap.PCM.RED_LED);
+        _green = new Solenoid(RobotMap.PCM.GREEN_LED);
+        _blue = new Solenoid(RobotMap.PCM.BLUE_LED);
     }
 
     @Override
@@ -29,8 +38,22 @@ public class Shifter extends Subsystem {
     public void shift(Gear gear, boolean auto) {
         shifterSolenoid.set(gear.getSolenoidValue());
         waitPeriodEndTime = System.currentTimeMillis() + (auto ? Constants.Shifter.AUTO_WAIT_PERIOD : Constants.Shifter.MANUAL_WAIT_PERIOD);
-        // if (gear==Gear.HIGH) {oi.rumbleRight();}
-        // if (gear==Gear.LOW) {oi.rumbleLeft();}
+        if (gear==Gear.HIGH) {
+            if (!DriverStation.getInstance().isAutonomous()) {
+                _robot.getOI().rumbleRight();
+            }
+            _green.set(false);
+            _red.set(true);
+            _blue.set(true);
+        }
+        if (gear==Gear.LOW) {
+            if (!DriverStation.getInstance().isAutonomous()) {
+                _robot.getOI().rumbleLeft();
+            }
+            _green.set(false);
+            _red.set(true);
+            _blue.set(false);
+        }
     }
 
     public boolean waitPeriodElapsed() {

@@ -71,6 +71,8 @@ public class Constants {
 
     public static class OI {
         public static final double AXIS_BUTTON_THRESHHOLD = 0.2;
+        public static final long RUMBLE_MILLIS = 250;
+        public static final double RUMBLE_INTENSITY = 1.0;
     }
 
     public static class Encoders {
