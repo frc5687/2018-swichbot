@@ -6,10 +6,10 @@ public class Constants {
     public static class DriveTrain {
         public static final double DEADBAND = 0.1;
         public static final double SENSITIVITY_LOW_GEAR = 0.0;
-        public static final double SENSITIVITY_HIGH_GEAR = 0.0;
+        public static final double SENSITIVITY_HIGH_GEAR = 0.3;
         public static final double ROTATION_SENSITIVITY = 0.0;
-        public static final double ROTATION_SENSITIVITY_HIGH_GEAR = 0.5;
-        public static final double ROTATION_SENSITIVITY_LOW_GEAR = 0;
+        public static final double ROTATION_SENSITIVITY_HIGH_GEAR = 0.8;
+        public static final double ROTATION_SENSITIVITY_LOW_GEAR = 0.0;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
@@ -40,17 +40,17 @@ public class Constants {
         public static final double SENSITIVITY = 0.9;
 
         public static final double FRONT_FLAT = 90.0;
-        public static final double FRONT_SWITCH = 30.0;
+        public static final double FRONT_SWITCH = 35.0;
         public static final double UP = 0;
-        public static final double BACK_SWITCH = -30.0;
+        public static final double BACK_SWITCH = -35.0;
         public static final double BACK_FLAT = -90.0;
 
         public static final double ANGLE_MIN = -95;
         public static final double ANGLE_MAX = 97;
         public static final double POT_MIN = 0.949;
-        public static final double POT_MAX = 0.378;
+        public static final double POT_MAX = 0.376;
 
-        public static final double SPEED_MAX = 0.8;
+        public static final double SPEED_MAX = 1.0;
         public static final boolean MOTOR_INVERTED = false;
         public static final double MAX_SPEED_DPS = 180; // Physical max speed of the arm in degrees per second
         public static final double CAP_SPEED_DPS = 120;
@@ -63,8 +63,8 @@ public class Constants {
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
 
-        public static final double HOLD_SPEED = -0.2;
-        public static final double INTAKE_SPEED = -0.75;
+        public static final double HOLD_SPEED = -0.1;
+        public static final double INTAKE_SPEED = -0.5;
         public static final double EJECT_SPEED = 0.5;
         public static final long EJECT_TIME_MILLIS = 500;
     }
