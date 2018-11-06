@@ -14,6 +14,9 @@ public class RobotMap {
 
     public static class PWM {
         public static final int ARM_VICTORSP = 0;
+        public static final int RED_STRIP = 10;
+        public static final int GREEN_STRIP = 11;
+        public static final int BLUE_STRIP = 13;
     }
 
     public static class PCM {
@@ -23,9 +26,6 @@ public class RobotMap {
         public static final int RIGHT_PINCER_CLOSE = 3;
         public static final int SHIFTER_HIGH = 4;
         public static final int SHIFTER_LOW = 0;
-        public static final int RED_LED = 6;
-        // public static final int GREEN_LED = 7;
-        public static final int BLUE_LED = 7;
     }
 
     public static class PDP {
@@ -35,6 +35,7 @@ public class RobotMap {
     public static class Analog {
         public static final int ARM_POTENTIOMETER = 0;
         public static final int AUTO_SELECTOR = 1;
+        public static final int CUBE_IR = 2;
     }
 
     public static class DIO {

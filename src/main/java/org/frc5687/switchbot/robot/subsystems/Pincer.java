@@ -2,10 +2,12 @@ package org.frc5687.switchbot.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.RobotMap;
@@ -21,6 +23,7 @@ public class Pincer extends Subsystem {
     private VictorSPX _leftIntakeMotor;
     private VictorSPX _rightIntakeMotor;
     private IntakeState _intakeState = IntakeState.HOLD;
+    private AnalogInput _cubeSensor;
 
     public Pincer(Robot robot) {
         _robot = robot;
@@ -46,6 +49,8 @@ public class Pincer extends Subsystem {
 
         _leftIntakeMotor.setNeutralMode(NeutralMode.Brake);
         _rightIntakeMotor.setNeutralMode(NeutralMode.Brake);
+
+        _cubeSensor = new AnalogInput(RobotMap.Analog.CUBE_IR);
     }
 
 
@@ -73,6 +78,7 @@ public class Pincer extends Subsystem {
             default:
                 runIntake(0);
         }
+        _robot.getLEDStrip().setHasCube(isCubeDetected());
     }
 
     public void runIntake(double speed) {
@@ -80,6 +86,9 @@ public class Pincer extends Subsystem {
         _rightIntakeMotor.set(ControlMode.PercentOutput, -speed);
     }
 
+    private boolean isCubeDetected() {
+        return _cubeSensor.getValue()>= Constants.Intake.CUBE_DETECTED_THRESHOLD;
+    }
 
     public void setIntakeState(IntakeState intakeState) {
         _intakeState = intakeState;
@@ -106,5 +115,10 @@ public class Pincer extends Subsystem {
             return _value;
         }
 
+    }
+
+    public void updateDashboard() {
+        SmartDashboard.putNumber("Pincer/IRSenson", _cubeSensor.getValue());
+        SmartDashboard.putBoolean("Pincer/CubeDetected", isCubeDetected());
     }
 }

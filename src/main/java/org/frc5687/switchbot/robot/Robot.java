@@ -8,10 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.commands.AutoGroup;
-import org.frc5687.switchbot.robot.subsystems.Arm;
-import org.frc5687.switchbot.robot.subsystems.DriveTrain;
-import org.frc5687.switchbot.robot.subsystems.Pincer;
-import org.frc5687.switchbot.robot.subsystems.Shifter;
+import org.frc5687.switchbot.robot.subsystems.*;
 import org.frc5687.switchbot.robot.utils.AutoChooser;
 import org.frc5687.switchbot.robot.utils.PDP;
 
@@ -19,10 +16,12 @@ public class Robot extends TimedRobot {
 
     private static Robot _instance;
 
+    private LEDStrip _ledStrip;
     private DriveTrain _drivetrain;
     private Pincer _pincer;
     private Arm _arm;
     private Shifter _shifter;
+
 
     private OI _oi;
     private PDP _pdp;
@@ -51,6 +50,7 @@ public class Robot extends TimedRobot {
 
         _pdp = new PDP();
         _oi = new OI();
+        _ledStrip = new LEDStrip();
         _drivetrain = new DriveTrain(_instance);
         _pincer = new Pincer(_instance);
         _arm = new Arm(_instance);
@@ -144,6 +144,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         _oi.poll();
+        _ledStrip.poll();
         updateDashboard();
     }
 
@@ -161,4 +162,5 @@ public class Robot extends TimedRobot {
     public Arm getArm() { return _arm; }
     public Shifter getShifter() { return _shifter; }
     public AHRS getIMU() { return _imu; }
+    public LEDStrip getLEDStrip() { return _ledStrip; }
 }

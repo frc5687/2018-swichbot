@@ -19,16 +19,9 @@ public class Shifter extends Subsystem {
     private long waitPeriodEndTime = 0;
     private boolean autShiftEnabled = false;
 
-    private Solenoid _red;
-    // private Solenoid _green;
-    private Solenoid _blue;
-
     public Shifter(Robot robot) {
         _robot = robot;
         shifterSolenoid = new DoubleSolenoid(RobotMap.PCM.SHIFTER_HIGH, RobotMap.PCM.SHIFTER_LOW);
-        _red = new Solenoid(RobotMap.PCM.RED_LED);
-        // _green = new Solenoid(RobotMap.PCM.GREEN_LED);
-        _blue = new Solenoid(RobotMap.PCM.BLUE_LED);
     }
 
     @Override
@@ -42,18 +35,13 @@ public class Shifter extends Subsystem {
             if (!DriverStation.getInstance().isAutonomous()) {
                 _robot.getOI().rumbleRight();
             }
-            // _green.set(false);
-            _red.set(true);
-            _blue.set(true);
         }
         if (gear==Gear.LOW) {
             if (!DriverStation.getInstance().isAutonomous()) {
                 _robot.getOI().rumbleLeft();
             }
-            // _green.set(false);
-            _red.set(true);
-            _blue.set(false);
         }
+        _robot.getLEDStrip().setGear(gear);
     }
 
     public boolean waitPeriodElapsed() {
