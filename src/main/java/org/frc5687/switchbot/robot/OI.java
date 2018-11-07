@@ -115,7 +115,10 @@ public class OI {
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY_LOW_GEAR);
 
     }
-
+    public double getEjectSpeed() {
+        double speed = getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber());
+        return speed;
+    }
     public double getDriveRotation(DriveTrain.DriveMode driveMode) {
         double speed = driveMode == DriveTrain.DriveMode.ARCADE ?
                 getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_X.getNumber())
