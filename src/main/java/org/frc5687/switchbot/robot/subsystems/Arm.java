@@ -97,6 +97,7 @@ public class Arm extends PIDSubsystem {
             SmartDashboard.putNumber("Arm/BottomPot",_pot.getRaw());
         }
     }
+    public boolean isEnabled() {return getPIDController().isEnabled();}
 
     public double getPot() { return _pot.get(); }
 
