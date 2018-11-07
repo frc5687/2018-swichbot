@@ -1,6 +1,7 @@
 package org.frc5687.switchbot.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.OI;
 import org.frc5687.switchbot.robot.subsystems.Arm;
 
@@ -24,10 +25,34 @@ public class DriveArm extends Command {
     }
 
     @Override
+    protected void initialize() {
+        double newAngle =_arm.getAngle();
+        _arm.setSetpoint(newAngle);
+        _arm.enable();
+    }
+
+    @Override
     protected void execute() {
         // Get the base speed from the throttle
         double speed = _oi.getArmSpeed();
+        if (speed == 0) {
+            double setPointSpeed = _oi.getArmSetpointSpeed();
+            if (setPointSpeed != 0) {
+                double oldSetpoint = _arm.getSetpoint();
+                double newSetpoint = oldSetpoint + (setPointSpeed* Constants.Arm.SETPOINT_SCALE_FACTOR);
 
-        _arm.drive(speed);
+                _arm.setSetpoint(newSetpoint);
+            }
+            if (!_arm.isEnabled()){
+                _arm.enable();
+            }
+        } else {
+            if (_arm.isEnabled()) {
+                _arm.disable();
+            }
+            _arm.drive(speed);
+        }
+
+
     }
 }

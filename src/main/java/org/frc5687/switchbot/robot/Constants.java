@@ -56,6 +56,7 @@ public class Constants {
         public static final boolean MOTOR_INVERTED = false;
         public static final double MAX_SPEED_DPS = 180; // Physical max speed of the arm in degrees per second
         public static final double CAP_SPEED_DPS = 120;
+        public static final double SETPOINT_SCALE_FACTOR =.5;
     }
 
     public static class Intake {
