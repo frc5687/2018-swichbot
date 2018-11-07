@@ -36,15 +36,12 @@ public class MoveArmToSetpoint extends Command {
     @Override
     protected void end() {
         DriverStation.reportError("MoveArmToSetpointPID Ending", false);
-        if (!DriverStation.getInstance().isAutonomous()) {
-            _arm.disable();
-            _arm.drive(_oi.getArmSpeed());
-        }
+
     }
 
     @Override
     protected boolean isFinished() {
-        return (!DriverStation.getInstance().isAutonomous() &&  Math.abs(_oi.getArmSpeed())>0.1);
+        return _arm.onTarget();
     }
 
 
