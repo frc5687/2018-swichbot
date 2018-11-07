@@ -153,6 +153,7 @@ public class Robot extends TimedRobot {
         _arm.updateDashboard();
         _autoChooser.updateDashboard();
         _drivetrain.updateDashboard();
+        _pincer.updateDashboard();
     }
 
     public OI getOI() { return _oi; }

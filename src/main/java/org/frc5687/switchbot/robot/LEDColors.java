@@ -8,8 +8,8 @@ import org.frc5687.switchbot.robot.utils.Color;
 public class LEDColors {
 
 
-    public static final Color HAS_CUBE = Color.GREEN;
+    public static final Color HAS_CUBE = new Color(255,255,50);
 
-    public static final Color LOW_GEAR = Color.PURPLE;
-    public static final Color HIGH_GEAR = Color.WHITE;
+    public static final Color LOW_GEAR = Color.RED;
+    public static final Color HIGH_GEAR = Color.DEEP_SKY_BLUE;
 }
