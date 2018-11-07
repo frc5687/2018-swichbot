@@ -36,13 +36,13 @@ public class DriveArm extends Command {
         // Get the base speed from the throttle
         double speed = _oi.getArmSpeed();
         if (speed == 0) {
+            double newSetpoint = _arm.getAngle();
             double setPointSpeed = _oi.getArmSetpointSpeed();
             if (setPointSpeed != 0) {
                 double oldSetpoint = _arm.getSetpoint();
-                double newSetpoint = oldSetpoint + (setPointSpeed* Constants.Arm.SETPOINT_SCALE_FACTOR);
-
-                _arm.setSetpoint(newSetpoint);
+                newSetpoint = oldSetpoint + (setPointSpeed* Constants.Arm.SETPOINT_SCALE_FACTOR);
             }
+            _arm.setSetpoint(newSetpoint);
             if (!_arm.isEnabled()){
                 _arm.enable();
             }
