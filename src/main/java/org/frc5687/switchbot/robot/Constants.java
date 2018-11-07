@@ -69,7 +69,7 @@ public class Constants {
         public static final double INTAKE_SPEED = -0.5;
         public static final double EJECT_SPEED = 0.5;
         public static final long EJECT_TIME_MILLIS = 500;
-        public static final int CUBE_DETECTED_THRESHOLD = 800;
+        public static final int CUBE_DETECTED_THRESHOLD = 1900;
     }
 
     public static class OI {
