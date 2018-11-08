@@ -13,7 +13,8 @@ public class Eject extends Command {
     private OI _oi;
     private long _endtime = 0;
 
-    public Eject(Pincer pincer) {
+    public Eject(Pincer pincer, OI oi) {
+        _oi = oi;
         _pincer = pincer;
         requires(_pincer);
     }
