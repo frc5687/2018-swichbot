@@ -151,7 +151,7 @@ public class AutoGroup extends CommandGroup {
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 8, 0.4, true, true, 1000, "Attack1"));
         addSequential(new AutoAlign(robot, 24, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 100, 0.5, true, true, 5000, "Attack2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.5, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
         addSequential(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
         addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
@@ -159,7 +159,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new Eject(robot.getPincer(), null));
 
         // Retreat to centerline of cube zone
-        addSequential(new AutoAlign(robot, 30, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.leftOnly, "realign 2"));
+        addSequential(new AutoAlign(robot, 35, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.leftOnly, "realign 2"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -60, .75, true, true, 5000, "Retreat 2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_FLAT));
         addSequential(new AutoAlign(robot, 0.0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "target 1"));
@@ -171,7 +171,7 @@ public class AutoGroup extends CommandGroup {
         addParallel(new HoldPincer(robot.getPincer()));
 
         // Retrieve
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 8, .6, true, true, 5000, "Retrieve"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 7, .6, true, true, 5000, "Retrieve"));
 
         // Turn and attack with second cube
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
