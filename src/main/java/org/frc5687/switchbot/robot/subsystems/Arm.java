@@ -105,6 +105,11 @@ public class Arm extends PIDSubsystem {
         return getPot();
     }
 
+    public void setTargetAngle(double angle) {
+        SmartDashboard.putNumber("Arm/targetAngle", angle);
+        setSetpoint(angle);
+    }
+
     public boolean atFrontLimit() {
         return /*_atFrontLimit || */  !_frontLimit.get() ||  getAngle() >= Constants.Arm.ANGLE_MAX;
     }
@@ -131,6 +136,7 @@ public class Arm extends PIDSubsystem {
     }
 
     public void updateDashboard() {
+        SmartDashboard.putNumber("Arm/setpoint", getPIDController().getSetpoint());
         SmartDashboard.putNumber("Arm/angleRaw", _pot.getRaw());
         SmartDashboard.putNumber("Arm/angle", _pot.get());
         SmartDashboard.putBoolean("Arm/FrontLimitSwitch", !_frontLimit.get());

@@ -116,8 +116,8 @@ public class OI {
 
     }
     public double getEjectSpeed() {
-        double speed = Math.max(getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber()),
-                getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber()));
+        double speed = Math.max(getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()),
+                getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()));
         return speed;
     }
     public double getDriveRotation(DriveTrain.DriveMode driveMode) {

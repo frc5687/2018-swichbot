@@ -23,12 +23,12 @@ public class Eject extends Command {
 
     @Override
     protected void initialize() {
-        //_endtime = System.currentTimeMillis() + Constants.Intake.EJECT_TIME_MILLIS;
+        _endtime = System.currentTimeMillis() + Constants.Intake.EJECT_TIME_MILLIS;
     }
 
     @Override
     protected boolean isFinished() {
-        return (DriverStation.getInstance().isAutonomous() || _oi==null || !_oi.isEjectButtonPressed());
+        return System.currentTimeMillis() > _endtime && (DriverStation.getInstance().isAutonomous() || _oi==null || !_oi.isEjectButtonPressed());
     }
 
     @Override
