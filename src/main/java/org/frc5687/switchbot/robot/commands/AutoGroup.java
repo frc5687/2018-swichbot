@@ -179,7 +179,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 50, .6, true, true, 5000, "Attack2"));
         addSequential(new AutoAlign(robot, 0, .40, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 4"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 10, .4, true, true, 5000, "Attack3"));
-        addSequential(new Eject(robot.getPincer()));
+        addSequential(new Eject(robot.getPincer(), null));
 
         // Align and retreat to oblique angle for 3d cube
         addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
