@@ -42,9 +42,9 @@ public class Constants {
         public static final double SENSITIVITY = 0.9;
 
         public static final double FRONT_FLAT = 90.0;
-        public static final double FRONT_SWITCH = 35.0;
+        public static final double FRONT_SWITCH = 40.0;
         public static final double UP = 0;
-        public static final double BACK_SWITCH = -35.0;
+        public static final double BACK_SWITCH = -40.0;
         public static final double BACK_FLAT = -90.0;
 
         public static final double ANGLE_MIN = -95;
