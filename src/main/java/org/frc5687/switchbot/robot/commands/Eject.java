@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.subsystems.Pincer;
 import org.frc5687.switchbot.robot.OI;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * Created by Ben Bernard on 6/5/2018.
@@ -31,7 +32,7 @@ public class Eject extends Command {
 
     @Override
     protected void execute() {
-        double speed = _oi.getEjectSpeed();
+        double speed = DriverStation.getInstance().isAutonomous() ? Constants.Intake.EJECT_SPEED : _oi.getEjectSpeed();
         _pincer.setIntakeState(Pincer.IntakeState.EJECT);
         _pincer.runIntake(speed);
     }
