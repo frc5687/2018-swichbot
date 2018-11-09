@@ -93,7 +93,6 @@ public class OI {
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
         _operatorRightTrigger.whenPressed(new Eject(robot.getPincer(), this));
-
         //_operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
         //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.CHEESY_ARCADE));
 
@@ -107,6 +106,7 @@ public class OI {
         _driverBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
         _driverAButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_FLAT));
 
+
     }
 
     public double getDriveSpeed(DriveTrain.DriveMode driveMode) {
@@ -116,7 +116,8 @@ public class OI {
 
     }
     public double getEjectSpeed() {
-        double speed = getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber());
+        double speed = Math.max(getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber()),
+                getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_TRIGGER.getNumber()));
         return speed;
     }
     public double getDriveRotation(DriveTrain.DriveMode driveMode) {
@@ -153,7 +154,6 @@ public class OI {
         return gamepad.getRawAxis(axisNumber);
     }
 
-
     public double getArmSpeed() {
         double speed = -getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_Y.getNumber()) * Constants.Arm.SPEED_MAX;
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
@@ -173,6 +173,9 @@ public class OI {
     public void rumbleRight() {
         _driverGamepad.setRumble(GenericHID.RumbleType.kRightRumble, Constants.OI.RUMBLE_INTENSITY);
         _endRumbleMillis = System.currentTimeMillis() + Constants.OI.RUMBLE_MILLIS;
+    }
+    public boolean isEjectButtonPressed(){
+        return _driverRightTrigger.get() || _operatorRightTrigger.get();
     }
 
     public void poll() {
