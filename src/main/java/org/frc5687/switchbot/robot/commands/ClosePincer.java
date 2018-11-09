@@ -32,7 +32,7 @@ public class ClosePincer extends Command {
 
         _pincer.close();
         _pincer.setIntakeState(Pincer.IntakeState.HOLD);
-        _pincer.runIntake();
+        _pincer.runIntake(0);
         _done = true;
     }
 

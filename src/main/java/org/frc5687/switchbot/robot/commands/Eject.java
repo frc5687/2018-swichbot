@@ -21,7 +21,6 @@ public class Eject extends Command {
 
     @Override
     protected void initialize() {
-
         _endtime = System.currentTimeMillis() + Constants.Intake.EJECT_TIME_MILLIS;
     }
 

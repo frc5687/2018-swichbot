@@ -16,7 +16,7 @@ public class HoldPincer extends Command {
     }
     @Override
     protected void execute() {
-        _pincer.runIntake();
+        _pincer.runIntake(0);
     }
 
     @Override

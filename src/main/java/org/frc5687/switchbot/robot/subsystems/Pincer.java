@@ -67,10 +67,10 @@ public class Pincer extends Subsystem {
     public void runIntake(double speed) {
         switch(_intakeState) {
             case HOLD:
-                run(0);
+                run(Constants.Intake.HOLD_SPEED);
                 break;
             case INTAKE:
-                run(0);
+                run(Constants.Intake.INTAKE_SPEED);
                 break;
             case EJECT:
                 run(speed);

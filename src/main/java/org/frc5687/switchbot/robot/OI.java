@@ -84,7 +84,7 @@ public class OI {
         _driverLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _driverLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
-        _driverRightTrigger.whenPressed(new Eject(robot.getPincer()));
+        _driverRightTrigger.whenPressed(new Eject(robot.getPincer(), this));
 
         _driverLeftBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.HIGH, false));
         _driverRightBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.LOW, false));
@@ -92,7 +92,7 @@ public class OI {
         _operatorLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
-        _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
+        _operatorRightTrigger.whenPressed(new Eject(robot.getPincer(), this));
 
         //_operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
         //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.CHEESY_ARCADE));
