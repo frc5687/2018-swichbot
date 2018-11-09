@@ -1,6 +1,7 @@
 package org.frc5687.switchbot.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.DriverStation;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.OI;
 import org.frc5687.switchbot.robot.subsystems.Arm;
@@ -34,7 +35,7 @@ public class DriveArm extends Command {
     @Override
     protected void execute() {
         // Get the base speed from the throttle
-        double speed = _oi.getArmSpeed();
+        double speed = DriverStation.getInstance().isAutonomous() ? 0 : _oi.getArmSpeed();
         if (speed == 0) {
             double newSetpoint = _arm.getSetpoint();
             double setPointSpeed = _oi.getArmSetpointSpeed();
