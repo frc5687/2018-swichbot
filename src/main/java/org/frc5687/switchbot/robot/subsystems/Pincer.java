@@ -64,24 +64,24 @@ public class Pincer extends Subsystem {
         _rightSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
-    public void runIntake() {
+    public void runIntake(double speed) {
         switch(_intakeState) {
             case HOLD:
-                runIntake(Constants.Intake.HOLD_SPEED);
+                run(Constants.Intake.HOLD_SPEED);
                 break;
             case INTAKE:
-                runIntake(Constants.Intake.INTAKE_SPEED);
+                run(Constants.Intake.INTAKE_SPEED);
                 break;
             case EJECT:
-                runIntake(Constants.Intake.EJECT_SPEED);
+                run(speed);
                 break;
             default:
-                runIntake(0);
+                run(0);
         }
         _robot.getLEDStrip().setHasCube(isCubeDetected());
     }
 
-    public void runIntake(double speed) {
+    public void run(double speed) {
         _leftIntakeMotor.set(ControlMode.PercentOutput, -speed);
         _rightIntakeMotor.set(ControlMode.PercentOutput, -speed);
     }

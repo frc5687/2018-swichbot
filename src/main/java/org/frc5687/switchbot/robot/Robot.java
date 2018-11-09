@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
         try {
             _camera0 = CameraServer.getInstance().startAutomaticCapture(0);
             _camera0.setResolution(320, 240);
-            _camera0.setFPS(30);
+            _camera0.setFPS(10);
         } catch (Exception e) {
             DriverStation.reportError(e.getMessage(), true);
         }

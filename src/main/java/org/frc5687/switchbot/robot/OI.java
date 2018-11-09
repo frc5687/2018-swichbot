@@ -84,7 +84,7 @@ public class OI {
         _driverLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _driverLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
-        _driverRightTrigger.whenPressed(new Eject(robot.getPincer()));
+        _driverRightTrigger.whenPressed(new Eject(robot.getPincer(), this));
 
         _driverLeftBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.HIGH, false));
         _driverRightBumper.whenPressed(new Shift(robot.getDriveTrain(), robot.getShifter(), Shifter.Gear.LOW, false));
@@ -92,8 +92,7 @@ public class OI {
         _operatorLeftTrigger.whenPressed(new OpenPincer(robot.getPincer()));
         _operatorLeftTrigger.whenReleased(new ClosePincer(robot.getPincer()));
 
-        _operatorRightTrigger.whenPressed(new Eject(robot.getPincer()));
-
+        _operatorRightTrigger.whenPressed(new Eject(robot.getPincer(), this));
         //_operatorLeftBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.TANK));
         //_operatorRightBumper.whenPressed(new SwitchDriveMode(robot.getDriveTrain(), DriveTrain.DriveMode.CHEESY_ARCADE));
 
@@ -107,6 +106,7 @@ public class OI {
         _driverBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
         _driverAButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_FLAT));
 
+
     }
 
     public double getDriveSpeed(DriveTrain.DriveMode driveMode) {
@@ -115,7 +115,11 @@ public class OI {
         return applySensitivityFactor(speed, Constants.DriveTrain.SENSITIVITY_LOW_GEAR);
 
     }
-
+    public double getEjectSpeed() {
+        double speed = Math.max(getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()),
+                getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()));
+        return speed;
+    }
     public double getDriveRotation(DriveTrain.DriveMode driveMode) {
         double speed = driveMode == DriveTrain.DriveMode.ARCADE ?
                 getSpeedFromAxis(_driverGamepad, Gamepad.Axes.LEFT_X.getNumber())
@@ -150,7 +154,6 @@ public class OI {
         return gamepad.getRawAxis(axisNumber);
     }
 
-
     public double getArmSpeed() {
         double speed = -getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_Y.getNumber()) * Constants.Arm.SPEED_MAX;
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
@@ -170,6 +173,9 @@ public class OI {
     public void rumbleRight() {
         _driverGamepad.setRumble(GenericHID.RumbleType.kRightRumble, Constants.OI.RUMBLE_INTENSITY);
         _endRumbleMillis = System.currentTimeMillis() + Constants.OI.RUMBLE_MILLIS;
+    }
+    public boolean isEjectButtonPressed(){
+        return _driverRightTrigger.get() || _operatorRightTrigger.get();
     }
 
     public void poll() {

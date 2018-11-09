@@ -16,7 +16,7 @@ public class IntakeOnly extends Command {
     @Override
     protected void execute() {
         _pincer.setIntakeState(Pincer.IntakeState.INTAKE);
-        _pincer.runIntake();
+        _pincer.runIntake(0);
     }
 
     @Override
