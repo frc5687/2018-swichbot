@@ -87,9 +87,9 @@ public class AutoGroup extends CommandGroup {
         // First attack - delivering starter cube to left side
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 8, 0.4, true, true, 1000, "Attack1"));
-        addSequential(new AutoAlign(robot, -22, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
+        addSequential(new AutoAlign(robot, -24, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.6, true, true, 5000, "Attack2"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.75, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
         addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
 
@@ -108,14 +108,14 @@ public class AutoGroup extends CommandGroup {
         addParallel(new HoldPincer(robot.getPincer()));
 
         // Retrieve
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 5, .75, true, true, 5000, "Retrieve"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 5, .6, true, true, 5000, "Retrieve"));
 
         // Turn and attack with second cube
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoAlign(robot, -70, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 3"));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 60, .6, true, true, 5000, "Attack2"));
-        addSequential(new AutoAlign(robot, 50, .40, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 4"));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 6, .6, true, true, 5000, "Attack3"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 50, .4, true, true, 5000, "Attack2"));
+        addSequential(new AutoAlign(robot, 0, .40, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "realign 4"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 20, .5, true, true, 5000, "Attack3"));
         addSequential(new Eject(robot.getPincer(), null));
 
         // Align and retreat to oblique angle for 3d cube
@@ -125,20 +125,20 @@ public class AutoGroup extends CommandGroup {
 
         // Align to 3rd cube and approach
         addSequential(new AutoAlign(robot, 45, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
-        addParallel(new IntakeOnly(robot.getPincer()));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 48, .75, true, true, 5000, "Approach2"));
+        addParallel(new OpenPincer(robot.getPincer()));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 28, .5, true, true, 5000, "Approach2"));
 
-        // Hold onto 3rd cube!
+/*        // Hold onto 3rd cube!
         addSequential(new ClosePincer(robot.getPincer()));
         addParallel(new HoldPincer(robot.getPincer()));
 
-/*        // Retrieve and align
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -48, .75, true, true, 5000, "Retrieve2"));
+       // Retrieve and align
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), -20 , .75, true, true, 5000, "Retrieve2"));
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoAlign(robot, 0, .60, 500, 1.0, AutoAlign.DriveTrainBehavior.bothSides, ""));
 
         // Attack with 3rd cube
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 56, .75, true, true, 5000, "Attack3"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 24, .75, true, true, 5000, "Attack3"));
         addSequential(new Eject(robot.getPincer()));
 */
         return;

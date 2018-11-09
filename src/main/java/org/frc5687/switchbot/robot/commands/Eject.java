@@ -32,7 +32,7 @@ public class Eject extends Command {
 
     @Override
     protected void execute() {
-        double speed = DriverStation.getInstance().isAutonomous() ? Constants.Intake.EJECT_SPEED : _oi.getEjectSpeed();
+        double speed = (DriverStation.getInstance().isAutonomous() || _oi==null) ? Constants.Intake.EJECT_SPEED : _oi.getEjectSpeed();
         _pincer.setIntakeState(Pincer.IntakeState.EJECT);
         _pincer.runIntake(speed);
     }

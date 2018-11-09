@@ -56,6 +56,7 @@ public class Constants {
         public static final boolean MOTOR_INVERTED = false;
         public static final double MAX_SPEED_DPS = 180; // Physical max speed of the arm in degrees per second
         public static final double CAP_SPEED_DPS = 120;
+        public static final double SETPOINT_SCALE_FACTOR =.5;
     }
 
     public static class Intake {
@@ -65,11 +66,11 @@ public class Constants {
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
 
-        public static final double HOLD_SPEED = -0.1;
+        public static final double HOLD_SPEED = -0.2;
         public static final double INTAKE_SPEED = -0.5;
-        public static final double EJECT_SPEED = 0.5;
+        public static final double EJECT_SPEED = 0.4;
         public static final long EJECT_TIME_MILLIS = 500;
-        public static final int CUBE_DETECTED_THRESHOLD = 800;
+        public static final int CUBE_DETECTED_THRESHOLD = 1900;
     }
 
     public static class OI {

@@ -155,7 +155,12 @@ public class OI {
 
 
     public double getArmSpeed() {
-        double speed = -getSpeedFromAxis(_operatorGamepad, 5) * Constants.Arm.SPEED_MAX;
+        double speed = -getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.LEFT_Y.getNumber()) * Constants.Arm.SPEED_MAX;
+        speed = applyDeadband(speed, Constants.Arm.DEADBAND);
+        return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
+    }
+    public double getArmSetpointSpeed() {
+        double speed = -getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.RIGHT_Y.getNumber()) * Constants.Arm.SPEED_MAX;
         speed = applyDeadband(speed, Constants.Arm.DEADBAND);
         return applySensitivityFactor(speed, Constants.Arm.SENSITIVITY);
     }
