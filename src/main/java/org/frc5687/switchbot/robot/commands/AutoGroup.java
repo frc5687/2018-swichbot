@@ -90,7 +90,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoAlign(robot, -24, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.6, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
-        addSequential(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
+        addSequential(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
 
         addSequential(new Eject(robot.getPincer(), null));
@@ -153,7 +153,7 @@ public class AutoGroup extends CommandGroup {
         addSequential(new AutoAlign(robot, 24, 1.0, 5000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "left 22deg"));
         addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, 0.5, true, true, 5000, "Attack2"));
         // addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 0, 0, true, true, 5000, "Stop"));
-        addSequential(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.UP));
+        addSequential(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
         addSequential(new AutoAlign(robot, 0, 1.0, 2000, 1.0, AutoAlign.DriveTrainBehavior.bothSides, "face switch"));
 
         addSequential(new Eject(robot.getPincer(), null));
@@ -218,7 +218,7 @@ public class AutoGroup extends CommandGroup {
     private void straightSwitch(Robot robot) {
         SmartDashboard.putString("AAutoRun", "StraightSwitch");
         addParallel(new MoveArmToSetpoint(robot.getArm(), null, Constants.Arm.FRONT_SWITCH));
-        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 48, .60, true, true, 5000, "StraightSwitch"));
+        addSequential(new AutoDrive(robot.getDriveTrain(), robot.getIMU(), 110, .60, true, true, 5000, "StraightSwitch"));
         addSequential(new Eject(robot.getPincer(), null));
         return;
     }

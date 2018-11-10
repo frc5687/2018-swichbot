@@ -50,7 +50,7 @@ public class Constants {
         public static final double ANGLE_MIN = -95;
         public static final double ANGLE_MAX = 97;
         public static final double POT_MIN = 0.949;
-        public static final double POT_MAX = 0.376;
+        public static final double POT_MAX = 0.377;
 
         public static final double SPEED_MAX = 1.0;
         public static final boolean MOTOR_INVERTED = false;
@@ -71,6 +71,10 @@ public class Constants {
         public static final double EJECT_SPEED = 0.4;
         public static final long EJECT_TIME_MILLIS = 500;
         public static final int CUBE_DETECTED_THRESHOLD = 1900;
+
+        public static final double EJECT_DEADBAND =.1;
+        public static final double EJECT_SENSITIVITY =.5;
+
     }
 
     public static class OI {

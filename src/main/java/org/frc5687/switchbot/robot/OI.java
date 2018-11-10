@@ -118,7 +118,8 @@ public class OI {
     public double getEjectSpeed() {
         double speed = Math.max(getSpeedFromAxis(_operatorGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()),
                 getSpeedFromAxis(_driverGamepad, Gamepad.Axes.RIGHT_TRIGGER.getNumber()));
-        return speed;
+        speed = applyDeadband(speed, Constants.Intake.EJECT_DEADBAND);
+        return applySensitivityFactor(speed, Constants.Intake.EJECT_SENSITIVITY);
     }
     public double getDriveRotation(DriveTrain.DriveMode driveMode) {
         double speed = driveMode == DriveTrain.DriveMode.ARCADE ?
