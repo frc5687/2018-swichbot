@@ -22,6 +22,14 @@ public class Constants {
         public static final double CAP_SPEED_IPS = .8 * MAX_SPEED_IPS;
         public static final double MAX_ACCELERATION_IPSS = CAP_SPEED_IPS / 2;
         public static final double MAX_JERK_IPSSS = CAP_SPEED_IPS;
+
+        public class TAPE_IR {
+            public static final boolean ENABLED = true;
+            public static final int SECURED_LOW_END = 1500;
+            public static final int SECURED_HIGH_END = Integer.MAX_VALUE;
+            public static final int DETECTED_LOW_END = 500;
+            public static final int DETECTED_HIGH_END = Integer.MAX_VALUE;
+        }
     }
 
     public class Shifter {

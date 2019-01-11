@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.frc5687.switchbot.robot.commands.AutoAlignToTarget;
 import org.frc5687.switchbot.robot.commands.AutoGroup;
 import org.frc5687.switchbot.robot.subsystems.*;
 import org.frc5687.switchbot.robot.utils.AutoChooser;
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
     private AutoChooser _autoChooser;
 
     private Command _autoCommand;
+
+
 
     public Robot() {
     }

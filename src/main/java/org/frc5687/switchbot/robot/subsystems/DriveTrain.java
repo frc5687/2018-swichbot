@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -33,6 +34,7 @@ public class DriveTrain extends Subsystem  implements PIDSource {
 
     private Robot _robot;
     private DriveMode _driveMode = DriveMode.CHEESY_ARCADE;
+    private AnalogInput _irTape;
     public AHRS _imu;
 
     public DriveTrain(Robot robot) {
@@ -84,6 +86,8 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         _leftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         _rightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         resetDriveEncoders();
+
+        _irTape = new AnalogInput(RobotMap.Analog.TAPE_IR);
 
 
     }
@@ -336,6 +340,14 @@ public class DriveTrain extends Subsystem  implements PIDSource {
 
     public DriveMode getDriveMode() { return _driveMode; }
 
+    public boolean tapeIsDetected() {
+        if (!Constants.DriveTrain.TAPE_IR.ENABLED) {
+            return false;
+        }
+        int dist = _irTape.getValue();
+        return Constants.DriveTrain.TAPE_IR.DETECTED_HIGH_END > dist && dist > Constants.DriveTrain.TAPE_IR.DETECTED_LOW_END;
+    }
+
     @Override
     public double pidGet() {
         return getDistance();
@@ -405,6 +417,9 @@ public class DriveTrain extends Subsystem  implements PIDSource {
         SmartDashboard.putNumber("DriveTrain/LeftSpeed", getLeftSpeed());
         SmartDashboard.putNumber("DriveTrain/RightSpeed", getRightSpeed());
         SmartDashboard.putNumber("DriveTrain/Yaw", _imu.getYaw());
+        SmartDashboard.putBoolean("DriveTrain/tapeIsDetected()", tapeIsDetected());
+        SmartDashboard.putNumber("DriveTrain/IR Tape raw", _irTape.getValue());
+
     }
 
 }

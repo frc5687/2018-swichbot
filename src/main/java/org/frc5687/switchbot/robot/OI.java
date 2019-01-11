@@ -104,7 +104,7 @@ public class OI {
         _driverYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
         _driverXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
         _driverBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
-        _driverAButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_FLAT));
+        _driverAButton.whenPressed(new AutoAlignToTarget(robot, .5, 20000, 1.0  ));
 
 
     }

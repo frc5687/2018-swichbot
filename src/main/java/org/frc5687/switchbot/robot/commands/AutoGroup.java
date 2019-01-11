@@ -1,10 +1,14 @@
 package org.frc5687.switchbot.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.subsystems.Shifter;
+
 
 /**
  * Created by Ben Bernard on 2/2/2018.
@@ -222,5 +226,6 @@ public class AutoGroup extends CommandGroup {
         addSequential(new Eject(robot.getPincer(), null));
         return;
     }
+
 
 }
