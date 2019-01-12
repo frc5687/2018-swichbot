@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.frc5687.switchbot.robot.Constants;
+import org.frc5687.switchbot.robot.OI;
 import org.frc5687.switchbot.robot.Robot;
 import org.frc5687.switchbot.robot.subsystems.DriveTrain;
 
@@ -32,6 +33,10 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
     private AHRS imu;
 
     private String _message = "";
+
+    NetworkTable _table;
+
+    private OI _oi;
 
     private DriveTrainBehavior _driveTrainBehavior = DriveTrainBehavior.bothSides;
 
@@ -67,6 +72,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
 
     public AutoAlignToTarget(Robot robot, double speed, long timeout, double tolerance, DriveTrainBehavior driveTrainBehavior, String message) {
         this(robot.getDriveTrain(), robot.getIMU(), speed, timeout, tolerance, driveTrainBehavior, message);
+        _oi = robot.getOI();
     }
 
     public AutoAlignToTarget(DriveTrain driveTrain, AHRS imu, double speed, long timeout, double tolerance, DriveTrainBehavior driveTrainBehavior, String message) {
@@ -90,8 +96,8 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
         // 1: Read current target angle from limelight
         // 2: Read current yaw from navX
         // 3: Set controller.angle to sum
-        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-        NetworkTableEntry tx = table.getEntry("tx");
+        _table = NetworkTableInstance.getDefault().getTable("limelight");
+        NetworkTableEntry tx = _table.getEntry("tx");
 
         double limeLightAngle = tx.getDouble(0.0);
         double yawAngle = imu.getAngle();
@@ -108,6 +114,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
         controller.setContinuous();
         controller.setSetpoint(angle);
         controller.enable();
+        SmartDashboard.putNumber("AutoAlignToTarget/setpoint", angle);
         DriverStation.reportError("AutoAlign " + _message + " initialized to " + angle + " at " + speed, false);
         DriverStation.reportError("kP="+kP+" , kI="+kI+", kD="+kD + ",T="+ Constants.Auto.Align.TOLERANCE, false);
         startTimeMillis = System.currentTimeMillis();
@@ -117,6 +124,23 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
 
     @Override
     protected void execute() {
+        NetworkTableEntry tx = _table.getEntry("tx");
+        double limeLightAngle = tx.getDouble(0.0);
+        double yawAngle = imu.getAngle();
+        angle = limeLightAngle + yawAngle;
+
+        SmartDashboard.putNumber("AutoAlignToTarget/startoffset", limeLightAngle);
+        SmartDashboard.putNumber("AutoAlignToTarget/startyaw", yawAngle);
+        SmartDashboard.putNumber("AutoAlignToTarget/target", angle);
+
+        if (Math.abs(angle - controller.getSetpoint()) > _tolerance) {
+            controller.setSetpoint(angle);
+            SmartDashboard.putNumber("AutoAlignToTarget/setpoint", angle);
+        }
+
+
+
+
         SmartDashboard.putBoolean("AutoAlignToTarget/onTarget", controller.onTarget());
         SmartDashboard.putNumber("AutoAlignToTarget/yaw", imu.getYaw());
 
@@ -149,7 +173,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
             _onTargetSince = 0;
         }
 
-        if(System.currentTimeMillis() >= _endTimeMillis){
+        if(!_oi.isAutoTargetPressed() && System.currentTimeMillis() >= _endTimeMillis){
             DriverStation.reportError("AutoAlignToTarget timed out after " + _timeout + "ms at " + imu.getYaw(), false);
             return true;
         }
@@ -160,7 +184,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
                 _onTargetSince = System.currentTimeMillis();
             }
 
-            if (System.currentTimeMillis() > _onTargetSince + Constants.Auto.Align.STEADY_TIME) {
+            if (!_oi.isAutoTargetPressed() && System.currentTimeMillis() > _onTargetSince + Constants.Auto.Align.STEADY_TIME) {
                 DriverStation.reportError("AutoAlignToTarget complete after " + Constants.Auto.Align.STEADY_TIME + " at " + imu.getYaw(), false);
                 return  true;
             }

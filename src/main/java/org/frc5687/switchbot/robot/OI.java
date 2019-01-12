@@ -104,9 +104,13 @@ public class OI {
         _driverYButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.UP));
         _driverXButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.FRONT_SWITCH));
         _driverBButton.whenPressed(new MoveArmToSetpoint(robot.getArm(), this, Constants.Arm.BACK_SWITCH));
-        _driverAButton.whenPressed(new AutoAlignToTarget(robot, .5, 20000, 1.0  ));
+        _driverAButton.whenPressed(new AutoAlignToTarget(robot, .5, 5000, 1.0  ));
 
 
+    }
+
+    public boolean isAutoTargetPressed() {
+        return _driverAButton.get();
     }
 
     public double getDriveSpeed(DriveTrain.DriveMode driveMode) {
