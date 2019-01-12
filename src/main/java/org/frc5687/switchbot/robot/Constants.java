@@ -7,11 +7,11 @@ public class Constants {
 
     public static class DriveTrain {
         public static final double DEADBAND = 0.1;
-        public static final double SENSITIVITY_LOW_GEAR = 0.0;
-        public static final double SENSITIVITY_HIGH_GEAR = 0.3;
+        public static final double SENSITIVITY_LOW_GEAR = 0.5;
+        public static final double SENSITIVITY_HIGH_GEAR = 0.7;
         public static final double ROTATION_SENSITIVITY = 0.0;
         public static final double ROTATION_SENSITIVITY_HIGH_GEAR = 0.8;
-        public static final double ROTATION_SENSITIVITY_LOW_GEAR = 0.0;
+        public static final double ROTATION_SENSITIVITY_LOW_GEAR = 0.5;
 
         public static final double HIGH_POW = 1.0;
         public static final double LOW_POW = -HIGH_POW;
