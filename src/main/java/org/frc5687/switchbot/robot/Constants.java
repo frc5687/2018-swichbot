@@ -74,7 +74,7 @@ public class Constants {
         public static final boolean LEFT_MOTORS_INVERTED = true;
         public static final boolean RIGHT_MOTORS_INVERTED = false;
 
-        public static final double HOLD_SPEED = -0.2;
+        public static final double HOLD_SPEED = 0;
         public static final double INTAKE_SPEED = -0.5;
         public static final double EJECT_SPEED = 0.4;
         public static final long EJECT_TIME_MILLIS = 500;

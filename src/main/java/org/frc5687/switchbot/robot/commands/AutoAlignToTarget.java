@@ -64,6 +64,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
 
     public AutoAlignToTarget(Robot robot, double speed, long timeout, double tolerance) {
         this(robot.getDriveTrain(), robot.getIMU(), speed, timeout, tolerance, "");
+        _oi = robot.getOI();
     }
 
     public AutoAlignToTarget(DriveTrain driveTrain, AHRS imu, double speed, long timeout, double tolerance, String message) {
@@ -173,7 +174,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
             _onTargetSince = 0;
         }
 
-        if(!_oi.isAutoTargetPressed() && System.currentTimeMillis() >= _endTimeMillis){
+        if((_oi!=null && !_oi.isAutoTargetPressed()) && System.currentTimeMillis() >= _endTimeMillis){
             DriverStation.reportError("AutoAlignToTarget timed out after " + _timeout + "ms at " + imu.getYaw(), false);
             return true;
         }
@@ -184,7 +185,7 @@ public class AutoAlignToTarget extends Command implements PIDOutput {
                 _onTargetSince = System.currentTimeMillis();
             }
 
-            if (!_oi.isAutoTargetPressed() && System.currentTimeMillis() > _onTargetSince + Constants.Auto.Align.STEADY_TIME) {
+            if ((_oi!=null && !_oi.isAutoTargetPressed()) && System.currentTimeMillis() > _onTargetSince + Constants.Auto.Align.STEADY_TIME) {
                 DriverStation.reportError("AutoAlignToTarget complete after " + Constants.Auto.Align.STEADY_TIME + " at " + imu.getYaw(), false);
                 return  true;
             }
